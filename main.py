@@ -1,6 +1,7 @@
 import pygame
 from cookie import Cookie
 from gui import GUI
+from score import Score
 
 
 def main():
@@ -9,6 +10,7 @@ def main():
     window = pygame.display.set_mode((850, 650))
     cookie = Cookie(window)
     gui = GUI(window)
+    score = Score(window)
 
     def onButton1Click():
         print("test")
@@ -34,6 +36,8 @@ def main():
         gui.drawBackG()
         cookie.drawCookie()
         gui.drawFrame()
+        cookie.clickCookie()
+        score.drawScore(cookie.score)
 
         gui.button(145, onButton1Click)
         gui.button(230, onButton2Click)

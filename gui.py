@@ -6,8 +6,8 @@ class GUI:
         self.window = window
         self.black = 0, 0, 0
         self.brightRed = 255, 0, 0
-        self.BACK_WIDTH = 800 * 1.5
-        self.BACK_HEIGHT = 600 * 1.5
+        self.BACK_WIDTH = 800 * 2
+        self.BACK_HEIGHT = 600 * 2
 
         backImage = pygame.image.load(r"assets\images\b2.png")
         self.back = pygame.transform.scale(backImage, (self.BACK_WIDTH, self.BACK_HEIGHT))
