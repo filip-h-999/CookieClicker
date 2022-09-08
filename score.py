@@ -10,7 +10,7 @@ class Score:
         self.cookieFrame = pygame.transform.scale(cookieFrameImage, (300, 100))
 
     def drawScore(self, score: int):
-        self.window.blit(self.cookieFrame, (60, 10))
+        self.window.blit(self.cookieFrame, (50, 10))
         font1 = font.SysFont('didot.ttc', 50)
         gameScore = font1.render("Cookies: %d" % score, True, self.black)
         self.window.blit(gameScore, (100, 40))
