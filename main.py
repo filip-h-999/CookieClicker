@@ -13,11 +13,16 @@ def main():
     gui = GUI(window)
     score = Score(window)
 
-    btn1 = Button(window, pygame.Rect(884, 145, 250, 70))
-    btn2 = Button(window, pygame.Rect(884, 230, 250, 70))
-    btn3 = Button(window, pygame.Rect(884, 315, 250, 70))
-    btn4 = Button(window, pygame.Rect(884, 315 + 85, 250, 70))
-    btn5 = Button(window, pygame.Rect(884, 315 + 170, 250, 70))
+    btn1 = Button(window, r"assets\images\Finger-buttons.png",
+                  pygame.Rect(884, 145, 250, 70))
+    btn2 = Button(window, r"assets\images\Grany-buttons.png",
+                  pygame.Rect(884, 230, 250, 70))
+    btn3 = Button(window, r"assets\images\Oven-buttons.png",
+                  pygame.Rect(884, 315, 250, 70))
+    btn4 = Button(window, r"assets\images\Factory-buttons.png",
+                  pygame.Rect(884, 315 + 85, 250, 70))
+    btn5 = Button(window, r"assets\images\Aliens-buttons.png",
+                  pygame.Rect(884, 315 + 170, 250, 70))
 
     def onButton1Click():
         print("test")
@@ -39,11 +44,16 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                btn1.buttonClick(onButton1Click)
-                btn2.buttonClick(onButton2Click)
-                btn3.buttonClick(onButton3Click)
-                btn4.buttonClick(onButton4Click)
-                btn5.buttonClick(onButton5Click)
+                if cookie.score >= 50:
+                    btn1.buttonClick(onButton1Click)
+                if cookie.score >= 500:
+                    btn2.buttonClick(onButton2Click)
+                if cookie.score >= 1500:
+                    btn3.buttonClick(onButton3Click)
+                if cookie.score >= 2500:
+                    btn4.buttonClick(onButton4Click)
+                if cookie.score >= 5000:
+                    btn5.buttonClick(onButton5Click)
                 cookie.clickCookie()
 
         window.blit(window, (0, 0))
