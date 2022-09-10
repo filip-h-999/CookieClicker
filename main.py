@@ -13,16 +13,21 @@ def main():
     gui = GUI(window)
     score = Score(window)
 
-    btn1 = Button(window, r"assets\images\Finger-buttons.png",
+    InfoFrameImage = pygame.image.load(r"assets\images\info-Frame.png")
+    infoFrame = pygame.transform.scale(InfoFrameImage, (500, 500))
+
+    btn1 = Button(window, r"assets\images\Finger-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 145, 250, 70))
-    btn2 = Button(window, r"assets\images\Grany-buttons.png",
+    btn2 = Button(window, r"assets\images\Grany-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 230, 250, 70))
-    btn3 = Button(window, r"assets\images\Oven-buttons.png",
+    btn3 = Button(window, r"assets\images\Oven-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 315, 250, 70))
-    btn4 = Button(window, r"assets\images\Factory-buttons.png",
+    btn4 = Button(window, r"assets\images\Factory-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 315 + 85, 250, 70))
-    btn5 = Button(window, r"assets\images\Aliens-buttons.png",
+    btn5 = Button(window, r"assets\images\Aliens-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 315 + 170, 250, 70))
+    infoButton = Button(window, r"assets\images\info.png", 30, 30, 40, 40,
+                        pygame.Rect(1150, 570, 30, 30))
 
     def onButton1Click():
         print("test")
@@ -38,6 +43,9 @@ def main():
 
     def onButton5Click():
         print("test5")
+
+    def onInfoClick():
+        infoButton.num_clicked += 1
 
     while running:
         for event in pygame.event.get():
@@ -55,6 +63,7 @@ def main():
                 if cookie.score >= 5000:
                     btn5.buttonClick(onButton5Click)
                 cookie.clickCookie()
+                infoButton.buttonClick(onInfoClick)
 
         window.blit(window, (0, 0))
         gui.drawBackG()
@@ -62,11 +71,15 @@ def main():
         gui.drawFrame()
         score.drawScore(cookie.score)
 
+        if infoButton.num_clicked % 2:
+            window.blit(infoFrame, (340, 100))
+
         btn1.drawButton()
         btn2.drawButton()
         btn3.drawButton()
         btn4.drawButton()
         btn5.drawButton()
+        infoButton.drawButton()
 
         pygame.display.update()
 

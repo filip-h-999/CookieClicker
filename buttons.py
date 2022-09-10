@@ -4,14 +4,16 @@ from cookie import Cookie
 
 
 class Button:
-    def __init__(self, window, imageFile: str, rect: Rect = None):
+    def __init__(self, window, imageFile: str, sizeX: int, sizeY: int,
+                 hoverSizeX, hoverSizeY, rect: Rect = None):
+        self.num_clicked = 0
         self.cookie = Cookie(window)
         self.window = window
         self.black = 0, 0, 0
         self.brightRed = 255, 0, 0
         img = pygame.image.load(imageFile)
-        self.normalSize = pygame.transform.scale(img, (250, 70))
-        self.hoverSize = pygame.transform.scale(img, (270, 80))
+        self.normalSize = pygame.transform.scale(img, (sizeX, sizeY))
+        self.hoverSize = pygame.transform.scale(img, (hoverSizeX, hoverSizeY))
         self.rect = rect
 
     def buttonClick(self, onButtonClick):
@@ -27,8 +29,8 @@ class Button:
         on_button = self.rect.collidepoint(mouse)
 
         if on_button:
-            pygame.draw.rect(self.window, self.brightRed, self.rect, 10)
+            # pygame.draw.rect(self.window, self.brightRed, self.rect, 10)
             self.window.blit(self.hoverSize, self.hoverSize.get_rect(center=self.rect.center))
         else:
-            pygame.draw.rect(self.window, self.black, self.rect, 10)
+            # pygame.draw.rect(self.window, self.black, self.rect, 10)
             self.window.blit(self.normalSize, self.normalSize.get_rect(center=self.rect.center))
