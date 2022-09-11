@@ -8,6 +8,7 @@ class Cookie:
         self.COOKIE_HEIGHT = 330
         self.black = 0, 0, 0
         self.score = 0
+        self.increaseS = 1
 
         self.cookieImage = pygame.image.load(r"assets\images\cookie3.png")
         self.cookie = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT, self.COOKIE_HEIGHT))
@@ -18,8 +19,8 @@ class Cookie:
     def drawCookie(self):
         self.window.blit(self.cookie, (31, 190))
 
-    def increaseScore(self):
-        self.score += 1
+    def increaseScore(self, n):
+        self.score += n
 
     def clickCookie(self):
         mouse = pygame.mouse.get_pos()
@@ -28,8 +29,7 @@ class Cookie:
         on_button = self.collisionRect.collidepoint(mouse)
         # pygame.draw.rect(self.window, self.black, self.collisionRect, 10)
 
-        if on_button and click[0] == 1:
+        if on_button and click[0]:
             # self.cookie = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT+15, self.COOKIE_HEIGHT+15))
             self.window.blit(self.cookie2, self.cookie2.get_rect(center=self.collisionRect.center))
-            self.increaseScore()
-            # print(self.score)
+            self.increaseScore(self.increaseS)

@@ -29,19 +29,20 @@ def main():
     infoButton = Button(window, r"assets\images\info.png", 30, 30, 40, 40,
                         pygame.Rect(1150, 570, 30, 30))
 
-    def onButton1Click():
-        print("test")
+    def onButtonFingerClick():
+        cookie.score -= 50
+        cookie.increaseS += 1
 
-    def onButton2Click():
+    def onButtonGranyClick():
         print("test2")
 
-    def onButton3Click():
+    def onButtonOvenClick():
         print("test3")
 
-    def onButton4Click():
+    def onButtonFactoryClick():
         print("test4")
 
-    def onButton5Click():
+    def onButtonAliensClick():
         print("test5")
 
     def onInfoClick():
@@ -53,15 +54,15 @@ def main():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cookie.score >= 50:
-                    btn1.buttonClick(onButton1Click)
+                    btn1.buttonClick(onButtonFingerClick)
                 if cookie.score >= 500:
-                    btn2.buttonClick(onButton2Click)
+                    btn2.buttonClick(onButtonGranyClick)
                 if cookie.score >= 1500:
-                    btn3.buttonClick(onButton3Click)
+                    btn3.buttonClick(onButtonOvenClick)
                 if cookie.score >= 2500:
-                    btn4.buttonClick(onButton4Click)
+                    btn4.buttonClick(onButtonFactoryClick)
                 if cookie.score >= 5000:
-                    btn5.buttonClick(onButton5Click)
+                    btn5.buttonClick(onButtonAliensClick)
                 cookie.clickCookie()
                 infoButton.buttonClick(onInfoClick)
 
