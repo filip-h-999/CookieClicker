@@ -1,4 +1,11 @@
 import pygame
+from pygame.mixer import Channel
+
+
+def cookieSound():
+    snowS = r"assets\sounds\cookieS.mp3"
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound(snowS), maxtime=500)
+    Channel(0).set_volume(0.2)
 
 
 class Cookie:
@@ -30,6 +37,7 @@ class Cookie:
         # pygame.draw.rect(self.window, self.black, self.collisionRect, 10)
 
         if on_button and click[0]:
+            cookieSound()
             # self.cookie = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT+15, self.COOKIE_HEIGHT+15))
             self.window.blit(self.cookie2, self.cookie2.get_rect(center=self.collisionRect.center))
             self.increaseScore(self.increaseS)
