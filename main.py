@@ -1,6 +1,6 @@
 import pygame
 from pygame import mixer
-from cookie import Cookie
+from cookie import Cookie, cookieSound
 from gui import GUI
 from score import Score
 from buttons import Button
@@ -41,6 +41,8 @@ def main():
                   pygame.Rect(884, 315 + 170, 250, 70))
     infoButton = Button(window, r"assets\buttons\info.png", 30, 30, 40, 40,
                         pygame.Rect(1150, 570, 30, 30))
+    pauseMusic = Button(window, r"assets\images\mute.png", 30, 30, 40, 40,
+                        pygame.Rect(10, 600, 30, 30))
 
     grany = Image(window, r"assets\upgreades\grany.png", 80, 80)
     oven = Image(window, r"assets\upgreades\oven.png", 80, 80)
@@ -56,7 +58,8 @@ def main():
         backgroundMusic = r"assets\sounds\beat.mp3"
         mixer.music.load(backgroundMusic)
         mixer.music.set_volume(0.05)
-        mixer.music.play()
+        pygame.mixer.music.play(loops=100)
+        # mixer.music.play()
 
     music()
 
@@ -70,7 +73,6 @@ def main():
         pygame.time.set_timer(timer_event, 1000)
         gAmount += 1
         Ck_s += 10
-        print(gAmount)
 
     def onButtonOvenClick():
         global Ck_s, oAmount
@@ -91,7 +93,10 @@ def main():
         aAmount += 1
 
     def onInfoClick():
-        infoButton.num_clicked += 1
+        infoButton.num_clickedInfo += 1
+
+    def onMuteClick():
+        pauseMusic.num_clickedMute += 1
 
     while running:
         global Ck_s
@@ -101,11 +106,12 @@ def main():
 
             if event.type == timer_event:
                 cookie.score += Ck_s
+                cookieSound()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if cookie.score >= 50:
                     btn1.buttonClick(onButtonFingerClick)
-                if cookie.score >= -500:
+                if cookie.score >= 500:
                     btn2.buttonClick(onButtonGranyClick)
                 if cookie.score >= 1500:
                     btn3.buttonClick(onButtonOvenClick)
@@ -115,6 +121,7 @@ def main():
                     btn5.buttonClick(onButtonAliensClick)
                 cookie.clickCookie()
                 infoButton.buttonClick(onInfoClick)
+                pauseMusic.buttonClick(onMuteClick)
 
         window.blit(window, (0, 0))
         gui.drawBackG()
@@ -138,8 +145,13 @@ def main():
         aliensAmount.text = "Amount: %d" % aAmount
         aliensAmount.drawText(520, 530)
 
-        if infoButton.num_clicked % 2:
+        if infoButton.num_clickedInfo % 2:
             window.blit(infoFrame, (340, 100))
+
+        if pauseMusic.num_clickedMute % 2:
+            mixer.music.pause()
+        else:
+            mixer.music.unpause()
 
         btn1.drawButton()
         btn2.drawButton()
@@ -147,6 +159,7 @@ def main():
         btn4.drawButton()
         btn5.drawButton()
         infoButton.drawButton()
+        pauseMusic.drawButton()
 
         clock.tick(60)
         pygame.display.update()

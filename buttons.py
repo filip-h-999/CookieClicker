@@ -6,7 +6,8 @@ from cookie import Cookie
 class Button:
     def __init__(self, window, imageFile: str, sizeX: int, sizeY: int,
                  hoverSizeX, hoverSizeY, rect: Rect = None):
-        self.num_clicked = 0
+        self.num_clickedInfo = 0
+        self.num_clickedMute = 0
         self.cookie = Cookie(window)
         self.window = window
         self.black = 0, 0, 0
