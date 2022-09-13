@@ -108,7 +108,11 @@ def main():
                 cookie.score += Ck_s
                 cookieSound()
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                cookie.isPressed = False
+
             if event.type == pygame.MOUSEBUTTONDOWN:
+                cookie.isPressed = True
                 if cookie.score >= 50:
                     btn1.buttonClick(onButtonFingerClick)
                 if cookie.score >= 500:
@@ -119,7 +123,7 @@ def main():
                     btn4.buttonClick(onButtonFactoryClick)
                 if cookie.score >= 5000:
                     btn5.buttonClick(onButtonAliensClick)
-                cookie.clickCookie()
+                cookie.clickCookie(event)
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
 
