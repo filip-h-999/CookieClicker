@@ -25,7 +25,6 @@ class Cookie:
         self.isPressed = False
 
     def drawCookie(self):
-
         if self.isPressed:
             self.window.blit(self.cookie2, self.cookie2.get_rect(center=self.collisionRect.center))
         else:

@@ -31,7 +31,7 @@ def main():
 
     btn1 = Button(window, r"assets\buttons\Finger-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 145, 250, 70))
-    btn2 = Button(window, r"assets\buttons\Grany-buttons.png", 250, 70, 270, 80,
+    btn2 = Button(window, r"assets\buttons\Granny-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 230, 250, 70))
     btn3 = Button(window, r"assets\buttons\Oven-buttons.png", 250, 70, 270, 80,
                   pygame.Rect(884, 315, 250, 70))
@@ -44,12 +44,12 @@ def main():
     pauseMusic = Button(window, r"assets\images\mute.png", 30, 30, 40, 40,
                         pygame.Rect(10, 600, 30, 30))
 
-    grany = Image(window, r"assets\upgreades\grany.png", 80, 80)
-    oven = Image(window, r"assets\upgreades\oven.png", 80, 80)
-    factory = Image(window, r"assets\upgreades\factory.png", 80, 80)
-    alien = Image(window, r"assets\upgreades\alien.png", 80, 80)
+    granny = Image(window, r"assets\upgrades\granny.png", 80, 80)
+    oven = Image(window, r"assets\upgrades\oven.png", 80, 80)
+    factory = Image(window, r"assets\upgrades\factory.png", 80, 80)
+    alien = Image(window, r"assets\upgrades\alien.png", 80, 80)
 
-    granyAmount = Text(window, 50, "Amount: %d" % gAmount, GREEN)
+    grannyAmount = Text(window, 50, "Amount: %d" % gAmount, GREEN)
     ovenAmount = Text(window, 50, "Amount: %d" % oAmount, GREEN)
     factoryAmount = Text(window, 50, "Amount: %d" % fAmount, GREEN)
     aliensAmount = Text(window, 50, "Amount: %d" % aAmount, GREEN)
@@ -67,7 +67,7 @@ def main():
         cookie.score -= 50
         cookie.increaseS += 1
 
-    def onButtonGranyClick():
+    def onButtonGrannyClick():
         global Ck_s, gAmount
         cookie.score -= 500
         pygame.time.set_timer(timer_event, 1000)
@@ -116,7 +116,7 @@ def main():
                 if cookie.score >= 50:
                     btn1.buttonClick(onButtonFingerClick)
                 if cookie.score >= 500:
-                    btn2.buttonClick(onButtonGranyClick)
+                    btn2.buttonClick(onButtonGrannyClick)
                 if cookie.score >= 1500:
                     btn3.buttonClick(onButtonOvenClick)
                 if cookie.score >= 2500:
@@ -133,9 +133,9 @@ def main():
         gui.drawFrame()
         score.drawScore(cookie.score)
 
-        grany.drawImage(430, 117)
-        granyAmount.text = "Amount: %d" % gAmount
-        granyAmount.drawText(520, 140)
+        granny.drawImage(430, 117)
+        grannyAmount.text = "Amount: %d" % gAmount
+        grannyAmount.drawText(520, 140)
 
         oven.drawImage(420, 245)
         ovenAmount.text = "Amount: %d" % oAmount
