@@ -6,7 +6,10 @@ from score import Score
 from buttons import Button
 from upgradeIcon import Image, Text
 
+
 Ck_s = 0
+ckClicked = False
+
 gAmount = 0
 oAmount = 0
 fAmount = 0
@@ -14,7 +17,7 @@ aAmount = 0
 
 
 def main():
-    global gAmount, oAmount, fAmount, aAmount
+    global gAmount, oAmount, fAmount, aAmount, ckClicked
     pygame.init()
     running = True
     window = pygame.display.set_mode((1200, 650))
@@ -109,10 +112,13 @@ def main():
                 cookieSound()
 
             if event.type == pygame.MOUSEBUTTONUP:
-                cookie.isPressed = False
+                if cookie.is_mouse_on_coockie():
+                    ckClicked = True
+                    cookie.clickCookie()
+                    print("Click")
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                cookie.isPressed = True
+                ckClicked = False
                 if cookie.score >= 50:
                     btn1.buttonClick(onButtonFingerClick)
                 if cookie.score >= 500:
@@ -123,15 +129,19 @@ def main():
                     btn4.buttonClick(onButtonFactoryClick)
                 if cookie.score >= 5000:
                     btn5.buttonClick(onButtonAliensClick)
-                cookie.clickCookie(event)
+                
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
 
         window.blit(window, (0, 0))
         gui.drawBackG()
-        cookie.drawCookie()
         gui.drawFrame()
         score.drawScore(cookie.score)
+
+        if not ckClicked:
+             cookie.drawCookie()
+        else:
+            cookie.drawBigCookies()
 
         granny.drawImage(430, 117)
         grannyAmount.text = "Amount: %d" % gAmount

@@ -22,24 +22,27 @@ class Cookie:
         self.cookie2 = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT + 10, self.COOKIE_HEIGHT + 10))
         self.rect = pygame.Rect(31, 190, self.COOKIE_HEIGHT, self.COOKIE_WIGHT)
         self.collisionRect = self.rect.inflate(-90, -90)
-        self.isPressed = False
+
 
     def drawCookie(self):
-        if self.isPressed:
-            self.window.blit(self.cookie2, self.cookie2.get_rect(center=self.collisionRect.center))
-        else:
-            self.window.blit(self.cookie, (31, 190))
+        self.window.blit(self.cookie, (31, 190))
+
+
+    def drawBigCookies(self):
+        self.window.blit(self.cookie2, self.cookie2.get_rect(center=self.collisionRect.center))
+
 
     def increaseScore(self, n):
         self.score += n
 
-    def clickCookie(self, event):
-        mouse = event.__dict__['pos']
-        button = event.__dict__['button']
+    def clickCookie(self):
+        cookieSound()
+        self.increaseScore(self.increaseS)
 
-        on_button = self.collisionRect.collidepoint(mouse)
-        # pygame.draw.rect(self.window, self.black, self.collisionRect, 10)
 
-        if on_button and button == 1:
-            cookieSound()
-            self.increaseScore(self.increaseS)
+    def is_mouse_on_coockie(self):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.collisionRect.collidepoint(mouse_pos):
+            return True
+        else:
+            return False
