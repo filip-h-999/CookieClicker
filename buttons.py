@@ -4,7 +4,7 @@ from cookie import Cookie
 
 
 class Button:
-    def __init__(self, window, imageFile: str, sizeX: int, sizeY: int,
+    def __init__(self, window, imageFile: str, opacity, sizeX: int, sizeY: int,
                  hoverSizeX, hoverSizeY, rect: Rect = None):
         self.num_clickedInfo = 0
         self.num_clickedMute = 0
@@ -13,6 +13,7 @@ class Button:
         self.black = 0, 0, 0
         self.brightRed = 255, 0, 0
         img = pygame.image.load(imageFile)
+        img.set_alpha(opacity)
         self.normalSize = pygame.transform.scale(img, (sizeX, sizeY))
         self.hoverSize = pygame.transform.scale(img, (hoverSizeX, hoverSizeY))
         self.rect = rect

@@ -15,6 +15,7 @@ oAmount = 0
 fAmount = 0
 aAmount = 0
 
+#todo title screen(reset or play further)
 
 def main():
     global gAmount, oAmount, fAmount, aAmount, ckClicked
@@ -26,26 +27,20 @@ def main():
     score = Score(window)
     GREEN = 0, 255, 0
 
+    opacityF = 200
+    opacityG = 200
+    opacityO = 200
+    opacityFa = 200
+    opacityA = 200
+
     clock = pygame.time.Clock()
     timer_event = pygame.USEREVENT + 1
 
     InfoFrameImage = pygame.image.load(r"assets\images\info-Frame.png")
     infoFrame = pygame.transform.scale(InfoFrameImage, (500, 500))
 
-    btn1 = Button(window, r"assets\buttons\Finger-buttons.png", 250, 70, 270, 80,
-                  pygame.Rect(884, 145, 250, 70))
-    btn2 = Button(window, r"assets\buttons\Granny-buttons.png", 250, 70, 270, 80,
-                  pygame.Rect(884, 230, 250, 70))
-    btn3 = Button(window, r"assets\buttons\Oven-buttons.png", 250, 70, 270, 80,
-                  pygame.Rect(884, 315, 250, 70))
-    btn4 = Button(window, r"assets\buttons\Factory-buttons.png", 250, 70, 270, 80,
-                  pygame.Rect(884, 315 + 85, 250, 70))
-    btn5 = Button(window, r"assets\buttons\Aliens-buttons.png", 250, 70, 270, 80,
-                  pygame.Rect(884, 315 + 170, 250, 70))
-    infoButton = Button(window, r"assets\buttons\info.png", 30, 30, 40, 40,
-                        pygame.Rect(1150, 570, 30, 30))
-    pauseMusic = Button(window, r"assets\images\mute.png", 30, 30, 40, 40,
-                        pygame.Rect(10, 600, 30, 30))
+    infoButton = Button(window, r"assets\buttons\info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
+    pauseMusic = Button(window, r"assets\images\mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
 
     granny = Image(window, r"assets\upgrades\granny.png", 80, 80)
     oven = Image(window, r"assets\upgrades\oven.png", 80, 80)
@@ -115,20 +110,40 @@ def main():
                 if cookie.is_mouse_on_coockie():
                     ckClicked = True
                     cookie.clickCookie()
-                    print("Click")
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
                 if cookie.score >= 50:
+                    opacityF = 255
                     btn1.buttonClick(onButtonFingerClick)
+                else:
+                    opacityF = 200
+
                 if cookie.score >= 500:
+                    opacityG = 255
                     btn2.buttonClick(onButtonGrannyClick)
+                else:
+                    opacityG = 200
+
                 if cookie.score >= 1500:
+                    opacityO = 255
                     btn3.buttonClick(onButtonOvenClick)
+                else:
+                    opacityO = 200
+
                 if cookie.score >= 2500:
+                    opacityFa = 255
                     btn4.buttonClick(onButtonFactoryClick)
+                else: 
+                    opacityFa = 200
+
                 if cookie.score >= 5000:
+                    opacityA = 255
                     btn5.buttonClick(onButtonAliensClick)
+                else:
+                    opacityA = 200
+
+                #todo comming out soon window
                 
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
@@ -167,6 +182,13 @@ def main():
         else:
             mixer.music.unpause()
 
+
+        btn1 = Button(window, r"assets\buttons\Finger-buttons.png", opacityF, 250, 70, 270, 80, pygame.Rect(884, 145, 250, 70))
+        btn2 = Button(window, r"assets\buttons\Granny-buttons.png", opacityG, 250, 70, 270, 80, pygame.Rect(884, 230, 250, 70))
+        btn3 = Button(window, r"assets\buttons\Oven-buttons.png", opacityO, 250, 70, 270, 80, pygame.Rect(884, 315, 250, 70))
+        btn4 = Button(window, r"assets\buttons\Factory-buttons.png", opacityFa, 250, 70, 270, 80, pygame.Rect(884, 315 + 85, 250, 70))
+        btn5 = Button(window, r"assets\buttons\Aliens-buttons.png", opacityA, 250, 70, 270, 80, pygame.Rect(884, 315 + 170, 250, 70))
+        
         btn1.drawButton()
         btn2.drawButton()
         btn3.drawButton()
