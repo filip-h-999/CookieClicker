@@ -14,19 +14,16 @@ def main():
     running = True
     ckClicked = False
 
-    # stats = {
-    #     "cookies" : 0,
-    #     "fAmount": 0,
-    #     "gAmount": 0,
-    #     "oAmount": 0,
-    #     "aAmount": 0
-    # }
-
-    gAmount = 0
-    oAmount = 0
-    fAmount = 0
-    aAmount = 0
-    Ck_s = 0
+    stats = {
+        "Ck_s" : 0,
+        "cookies" : 0,
+        "fingers" : 1,
+        "gAmount": 0,
+        "oAmount": 0,
+        "fAmount": 0,
+        "aAmount": 0,
+        "event" : 0
+    }
 
     pygame.init()
     window = pygame.display.set_mode((1200, 650))
@@ -59,17 +56,16 @@ def main():
     factory = Image(window, r"assets\upgrades\factory.png", 80, 80)
     alien = Image(window, r"assets\upgrades\alien.png", 80, 80)
 
-    grannyAmount = Text(window, 50, "Amount: %d" % gAmount, GREEN)
-    ovenAmount = Text(window, 50, "Amount: %d" % oAmount, GREEN)
-    factoryAmount = Text(window, 50, "Amount: %d" % fAmount, GREEN)
-    aliensAmount = Text(window, 50, "Amount: %d" % aAmount, GREEN)
+    grannyAmount = Text(window, 50, "Amount: %d" % stats["gAmount"], GREEN)
+    ovenAmount = Text(window, 50, "Amount: %d" % stats["oAmount"], GREEN)
+    factoryAmount = Text(window, 50, "Amount: %d" % stats["fAmount"], GREEN)
+    aliensAmount = Text(window, 50, "Amount: %d" % stats["aAmount"], GREEN)
 
-    # if os.path.exists("statsDic.json"):
-    #     with open("statsDic.json", "r") as file:
-    #         stats = json.load(file)
+    if os.path.exists("statsDic.json"):
+        with open("statsDic.json", "r") as file:
+            stats = json.load(file)
     
-    # cookie.score = stats["cookies"]
-    
+    cookie.score = stats["cookies"]
 
     def music():
         backgroundMusic = r"assets\sounds\beat.mp3"
@@ -80,32 +76,40 @@ def main():
 
     def onButtonFingerClick():
         cookie.score -= 50
-        cookie.increaseS += 1
+        stats["cookies"] -= 50
+        stats["fingers"] += 1
+        # cookie.increaseS = stats["fingers"]
+        stats["fingers"] += 1
 
     def onButtonGrannyClick():
-        global Ck_s, gAmount
         cookie.score -= 500
+        stats["cookies"] -= 500
         pygame.time.set_timer(timer_event, 1000)
-        gAmount += 1
-        Ck_s += 10
+        stats["gAmount"] += 1
+        stats["Ck_s"] += 10
+        stats["event"] = 1
 
     def onButtonOvenClick():
-        global Ck_s, oAmount
         cookie.score -= 1500
-        Ck_s += 15
-        oAmount += 1
+        stats["cookies"] -= 1500
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 15
+        stats["oAmount"] += 1
+
 
     def onButtonFactoryClick():
-        global Ck_s, fAmount
         cookie.score -= 2500
-        Ck_s += 20
-        fAmount += 1
+        stats["cookies"] -= 2500
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 20
+        stats["fAmount"] += 1
 
     def onButtonAliensClick():
-        global Ck_s, aAmount
         cookie.score -= 5000
-        Ck_s += 40
-        aAmount += 1
+        stats["cookies"] -= 5000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 40
+        stats["aAmount"] += 1
 
     def onInfoClick():
         infoButton.num_clickedInfo += 1
@@ -116,26 +120,31 @@ def main():
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # with open("statsDic.json", "w") as file:
-                #         json.dump(stats, file)
+                with open("statsDic.json", "w") as file:
+                        json.dump(stats, file)
                 running = False
 
             if event.type == timer_event:
-                cookie.score += Ck_s
+                cookie.score += stats["Ck_s"]
+                stats["cookies"] += stats["Ck_s"]
                 cookieSound()
+                print("in")
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     started = True
                     music()
-                    #todo reset
+
+                    if stats["event"] == 1:
+                        pygame.time.set_timer(timer_event, 1000)
+
+            #todo reset
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if cookie.is_mouse_on_coockie():
                     ckClicked = True
                     cookie.clickCookie()
-                    # stats["cookies"] += 1
-
+                    stats["cookies"] += stats["fingers"]
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
@@ -185,7 +194,7 @@ def main():
             window.blit(window, (0, 0))
             gui.drawBackG()
             gui.drawFrame()
-            score.drawScore(cookie.score)
+            score.drawScore(stats["cookies"])
 
 
             if not ckClicked:
@@ -194,19 +203,19 @@ def main():
                 cookie.drawBigCookies()
 
             granny.drawImage(430, 117)
-            grannyAmount.text = "Amount: %d" % gAmount
+            grannyAmount.text = "Amount: %d" % stats["gAmount"]
             grannyAmount.drawText(520, 140)
 
             oven.drawImage(420, 245)
-            ovenAmount.text = "Amount: %d" % oAmount
+            ovenAmount.text = "Amount: %d" % stats["oAmount"]
             ovenAmount.drawText(520, 270)
 
             factory.drawImage(425, 375)
-            factoryAmount.text = "Amount: %d" % fAmount
+            factoryAmount.text = "Amount: %d" % stats["fAmount"]
             factoryAmount.drawText(520, 400)
 
             alien.drawImage(430, 515)
-            aliensAmount.text = "Amount: %d" % aAmount
+            aliensAmount.text = "Amount: %d" % stats["aAmount"]
             aliensAmount.drawText(520, 530)
 
             if infoButton.num_clickedInfo % 2:

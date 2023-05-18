@@ -14,8 +14,8 @@ class Cookie:
         self.COOKIE_WIGHT = 330
         self.COOKIE_HEIGHT = 330
         self.black = 0, 0, 0
-        self.score = 0
-        self.increaseS = 1
+        # self.score = 0
+        # self.increaseS = 1
 
         self.cookieImage = pygame.image.load(r"assets\images\cookie3.png")
         self.cookie = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT, self.COOKIE_HEIGHT))
@@ -32,12 +32,12 @@ class Cookie:
         self.window.blit(self.cookie2, self.cookie2.get_rect(center=self.collisionRect.center))
 
 
-    def increaseScore(self, n):
-        self.score += n
+    # def increaseScore(self, n):
+    #     self.score += n
 
     def clickCookie(self):
         cookieSound()
-        self.increaseScore(self.increaseS)
+        # self.increaseScore(self.increaseS)
 
 
     def is_mouse_on_coockie(self):
