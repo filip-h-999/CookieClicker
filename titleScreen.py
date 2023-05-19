@@ -11,3 +11,7 @@ class Title:
     def drawScreen(self):
         titleScreen = pygame.image.load(r"assets\images\cookie.jpg")
         self.window.blit(pygame.transform.scale(titleScreen, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
+
+    def drawUpdateCommingSoon(self):
+        ucs = pygame.image.load(r"assets\images\soon.jpg")
+        self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))

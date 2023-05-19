@@ -11,8 +11,10 @@ from titleScreen import Title
 
 
 def main():
+    global started
     running = True
     ckClicked = False
+    update = False
 
     stats = {
         "Ck_s" : 0,
@@ -65,8 +67,6 @@ def main():
         with open("statsDic.json", "r") as file:
             stats = json.load(file)
     
-    cookie.score = stats["cookies"]
-
     def music():
         backgroundMusic = r"assets\sounds\beat.mp3"
         mixer.music.load(backgroundMusic)
@@ -74,15 +74,25 @@ def main():
         pygame.mixer.music.play(loops=100)
         # mixer.music.play()
 
+    def reset():
+        global started
+        stats["Ck_s"] = 0
+        stats["cookies"] = 0
+        stats["fingers"] = 1
+        stats["gAmount"] = 0
+        stats["oAmount"] = 0
+        stats["fAmount"] = 0
+        stats["aAmount"] = 0
+        stats["event"] = 0
+        started = True
+
     def onButtonFingerClick():
-        cookie.score -= 50
         stats["cookies"] -= 50
         stats["fingers"] += 1
         # cookie.increaseS = stats["fingers"]
         stats["fingers"] += 1
 
     def onButtonGrannyClick():
-        cookie.score -= 500
         stats["cookies"] -= 500
         pygame.time.set_timer(timer_event, 1000)
         stats["gAmount"] += 1
@@ -90,7 +100,6 @@ def main():
         stats["event"] = 1
 
     def onButtonOvenClick():
-        cookie.score -= 1500
         stats["cookies"] -= 1500
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 15
@@ -98,14 +107,12 @@ def main():
 
 
     def onButtonFactoryClick():
-        cookie.score -= 2500
         stats["cookies"] -= 2500
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 20
         stats["fAmount"] += 1
 
     def onButtonAliensClick():
-        cookie.score -= 5000
         stats["cookies"] -= 5000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 40
@@ -125,10 +132,8 @@ def main():
                 running = False
 
             if event.type == timer_event:
-                cookie.score += stats["Ck_s"]
                 stats["cookies"] += stats["Ck_s"]
                 cookieSound()
-                print("in")
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -138,7 +143,20 @@ def main():
                     if stats["event"] == 1:
                         pygame.time.set_timer(timer_event, 1000)
 
-            #todo reset
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    reset()
+                    music()
+                    with open("statsDic.json", "w") as file:
+                        json.dump(stats, file)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    update = False
+                    stats["cookies"] += 1
+                    pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
+                    pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
+
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if cookie.is_mouse_on_coockie():
@@ -148,37 +166,38 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
-                if cookie.score >= 50:
+                if stats["cookies"] >= 50:
                     opacityF = 255
                     btn1.buttonClick(onButtonFingerClick)
                 else:
                     opacityF = 200
 
-                if cookie.score >= 500:
+                if stats["cookies"] >= 500:
                     opacityG = 255
                     btn2.buttonClick(onButtonGrannyClick)
                 else:
                     opacityG = 200
 
-                if cookie.score >= 1500:
+                if stats["cookies"] >= 1500:
                     opacityO = 255
                     btn3.buttonClick(onButtonOvenClick)
                 else:
                     opacityO = 200
 
-                if cookie.score >= 2500:
+                if stats["cookies"] >= 2500:
                     opacityFa = 255
                     btn4.buttonClick(onButtonFactoryClick)
                 else: 
                     opacityFa = 200
 
-                if cookie.score >= 5000:
+                if stats["cookies"] >= 5000:
                     opacityA = 255
                     btn5.buttonClick(onButtonAliensClick)
                 else:
                     opacityA = 200
-
-                #todo comming out soon window
+                
+                if stats["cookies"] >= 10000:
+                    update = True
                 
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
@@ -195,7 +214,7 @@ def main():
             gui.drawBackG()
             gui.drawFrame()
             score.drawScore(stats["cookies"])
-
+            
 
             if not ckClicked:
                 cookie.drawCookie()
@@ -240,6 +259,11 @@ def main():
             btn5.drawButton()
             infoButton.drawButton()
             pauseMusic.drawButton()
+
+            if update and stats["cookies"] == 10000:
+                titleScreen.drawUpdateCommingSoon()
+                pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
+                pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
 
         pygame.display.update()
         clock.tick(60)
