@@ -14,7 +14,7 @@ class GUI:
         self.frame = pygame.transform.scale(frameImage, (400, 600))
         shopImage = pygame.image.load(r"assets\images\shop.png")
         self.shop = pygame.transform.scale(shopImage, (300, 100))
-        frame2Image = pygame.image.load(r"C:\Users\filip\Downloads\frame2.png")
+        frame2Image = pygame.image.load(r"assets\images\frame2.png")
         self.frame2 = pygame.transform.scale(frame2Image, (500, 150))
         upgradeFrameImage = pygame.image.load(r"assets\images\upgradesFrame.png")
         self.upgradeFrame = pygame.transform.scale(upgradeFrameImage, (300, 100))
