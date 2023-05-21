@@ -1,4 +1,4 @@
-#Cookie Clicker
+# Cookie Clicker
 
 Welcome to Cookie Clicker! This is a simple and addictive idle clicking game where your goal is to click as many cookies as possible. Click your way to cookie glory and become the ultimate cookie clicker!
 
@@ -6,7 +6,7 @@ Welcome to Cookie Clicker! This is a simple and addictive idle clicking game whe
 
 Press p to play and r to reset the Cookie Score
 
-#How to paly
+# How to paly
 
 Click the Cookie: The main objective of the game is to click on the giant cookie as fast as you can. Each click earns you a certain number of cookies. Clicking repeatedly will quickly increase your cookie count.
 
