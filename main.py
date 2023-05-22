@@ -29,6 +29,7 @@ def main():
 
     pygame.init()
     window = pygame.display.set_mode((1200, 650))
+    pygame.display.set_caption("Cookie Clicker")
     GREEN = 0, 255, 0
 
     cookie = Cookie(window)
