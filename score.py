@@ -6,7 +6,7 @@ class Score:
     def __init__(self, window):
         self.window = window
         self.black = 0, 0, 0
-        cookieFrameImage = pygame.image.load(r"assets\images\cookieCount.png")
+        cookieFrameImage = pygame.image.load(r"assets/images/cookieCount.png")
         self.cookieFrame = pygame.transform.scale(cookieFrameImage, (300, 100))
 
     def drawScore(self, score: int):

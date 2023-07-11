@@ -3,7 +3,7 @@ from pygame.mixer import Channel
 
 
 def cookieSound():
-    snowS = r"assets\sounds\cookieS.mp3"
+    snowS = r"assets/sounds/cookieS.mp3"
     pygame.mixer.Channel(0).play(pygame.mixer.Sound(snowS), maxtime=500)
     Channel(0).set_volume(0.2)
 
@@ -17,7 +17,7 @@ class Cookie:
         # self.score = 0
         # self.increaseS = 1
 
-        self.cookieImage = pygame.image.load(r"assets\images\cookie3.png")
+        self.cookieImage = pygame.image.load(r"assets/images/cookie3.png")
         self.cookie = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT, self.COOKIE_HEIGHT))
         self.cookie2 = pygame.transform.scale(self.cookieImage, (self.COOKIE_WIGHT + 10, self.COOKIE_HEIGHT + 10))
         self.rect = pygame.Rect(31, 190, self.COOKIE_HEIGHT, self.COOKIE_WIGHT)

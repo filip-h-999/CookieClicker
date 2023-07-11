@@ -48,16 +48,16 @@ def main():
     clock = pygame.time.Clock()
     timer_event = pygame.USEREVENT + 1
 
-    InfoFrameImage = pygame.image.load(r"assets\images\info-Frame.png")
+    InfoFrameImage = pygame.image.load(r"assets/images/info-Frame.png")
     infoFrame = pygame.transform.scale(InfoFrameImage, (500, 500))
 
-    infoButton = Button(window, r"assets\buttons\info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
-    pauseMusic = Button(window, r"assets\images\mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
+    infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
+    pauseMusic = Button(window, r"assets/images/mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
 
-    granny = Image(window, r"assets\upgrades\granny.png", 80, 80)
-    oven = Image(window, r"assets\upgrades\oven.png", 80, 80)
-    factory = Image(window, r"assets\upgrades\factory.png", 80, 80)
-    alien = Image(window, r"assets\upgrades\alien.png", 80, 80)
+    granny = Image(window, r"assets/upgrades/granny.png", 80, 80)
+    oven = Image(window, r"assets/upgrades/oven.png", 80, 80)
+    factory = Image(window, r"assets/upgrades/factory.png", 80, 80)
+    alien = Image(window, r"assets/upgrades/alien.png", 80, 80)
 
     grannyAmount = Text(window, 50, "Amount: %d" % stats["gAmount"], GREEN)
     ovenAmount = Text(window, 50, "Amount: %d" % stats["oAmount"], GREEN)
@@ -69,7 +69,7 @@ def main():
             stats = json.load(file)
     
     def music():
-        backgroundMusic = r"assets\sounds\beat.mp3"
+        backgroundMusic = r"assets/sounds/beat.mp3"
         mixer.music.load(backgroundMusic)
         mixer.music.set_volume(0.05)
         pygame.mixer.music.play(loops=100)
@@ -247,11 +247,11 @@ def main():
                 mixer.music.unpause()
 
 
-            btn1 = Button(window, r"assets\buttons\Finger-buttons.png", opacityF, 250, 70, 270, 80, pygame.Rect(884, 145, 250, 70))
-            btn2 = Button(window, r"assets\buttons\Granny-buttons.png", opacityG, 250, 70, 270, 80, pygame.Rect(884, 230, 250, 70))
-            btn3 = Button(window, r"assets\buttons\Oven-buttons.png", opacityO, 250, 70, 270, 80, pygame.Rect(884, 315, 250, 70))
-            btn4 = Button(window, r"assets\buttons\Factory-buttons.png", opacityFa, 250, 70, 270, 80, pygame.Rect(884, 315 + 85, 250, 70))
-            btn5 = Button(window, r"assets\buttons\Aliens-buttons.png", opacityA, 250, 70, 270, 80, pygame.Rect(884, 315 + 170, 250, 70))
+            btn1 = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 250, 70, 270, 80, pygame.Rect(884, 145, 250, 70))
+            btn2 = Button(window, r"assets/buttons/Granny-buttons.png", opacityG, 250, 70, 270, 80, pygame.Rect(884, 230, 250, 70))
+            btn3 = Button(window, r"assets/buttons/Oven-buttons.png", opacityO, 250, 70, 270, 80, pygame.Rect(884, 315, 250, 70))
+            btn4 = Button(window, r"assets/buttons/Factory-buttons.png", opacityFa, 250, 70, 270, 80, pygame.Rect(884, 315 + 85, 250, 70))
+            btn5 = Button(window, r"assets/buttons/Aliens-buttons.png", opacityA, 250, 70, 270, 80, pygame.Rect(884, 315 + 170, 250, 70))
             
             btn1.drawButton()
             btn2.drawButton()
