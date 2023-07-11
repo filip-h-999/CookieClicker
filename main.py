@@ -75,7 +75,7 @@ def main():
         # mixer.music.load(backgroundMusic)
         # mixer.music.set_volume(0.05)
         # pygame.mixer.music.play(loops=100)
-        pygame.mixer.Channel(1).play(pygame.mixer.Sound(backgroundMusic))
+        pygame.mixer.Channel(1).play(pygame.mixer.Sound(backgroundMusic), loops=-1)
         Channel(1).set_volume(0.2)
         # mixer.music.play()
 
