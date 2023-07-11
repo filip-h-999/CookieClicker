@@ -1,11 +1,14 @@
 import pygame
-from pygame.mixer import Channel
+from pygame import mixer
 
 
 def cookieSound():
-    snowS = r"assets/sounds/cookieS.mp3"
-    pygame.mixer.Channel(0).play(pygame.mixer.Sound(snowS), maxtime=500)
-    Channel(0).set_volume(0.2)
+    clickSound = r"assets/sounds/cookieS.mp3"
+    mixer.music.load(clickSound)
+    mixer.music.set_volume(0.2)
+    mixer.music.play()
+    # pygame.mixer.Channel(0).play(pygame.mixer.Sound(clickSound), maxtime=300)
+    # Channel(0).set_volume(0.2)
 
 
 class Cookie:

@@ -2,6 +2,7 @@ import pygame
 import json
 import os
 from pygame import mixer
+from pygame.mixer import Channel
 from cookie import Cookie, cookieSound
 from gui import GUI
 from score import Score
@@ -24,7 +25,8 @@ def main():
         "oAmount": 0,
         "fAmount": 0,
         "aAmount": 0,
-        "event" : 0
+        "event" : 0,
+        "win" : 0
     }
 
     pygame.init()
@@ -70,9 +72,11 @@ def main():
     
     def music():
         backgroundMusic = r"assets/sounds/beat.mp3"
-        mixer.music.load(backgroundMusic)
-        mixer.music.set_volume(0.05)
-        pygame.mixer.music.play(loops=100)
+        # mixer.music.load(backgroundMusic)
+        # mixer.music.set_volume(0.05)
+        # pygame.mixer.music.play(loops=100)
+        pygame.mixer.Channel(1).play(pygame.mixer.Sound(backgroundMusic))
+        Channel(1).set_volume(0.2)
         # mixer.music.play()
 
     def reset():
@@ -85,6 +89,7 @@ def main():
         stats["fAmount"] = 0
         stats["aAmount"] = 0
         stats["event"] = 0
+        stats["win"] = 0
         started = True
 
     def onButtonFingerClick():
@@ -155,6 +160,7 @@ def main():
                 if event.key == pygame.K_e:
                     update = False
                     stats["cookies"] += 1
+                    stats["win"] = 1
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
 
@@ -261,7 +267,7 @@ def main():
             infoButton.drawButton()
             pauseMusic.drawButton()
 
-            if update and stats["cookies"] == 10000:
+            if update and stats["win"] != 1 and stats["cookies"] >= 10000:
                 titleScreen.drawUpdateCommingSoon()
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
