@@ -76,7 +76,7 @@ def main():
         # mixer.music.set_volume(0.05)
         # pygame.mixer.music.play(loops=100)
         pygame.mixer.Channel(1).play(pygame.mixer.Sound(backgroundMusic), loops=-1)
-        Channel(1).set_volume(0.2)
+        Channel(1).set_volume(0.1)
         # mixer.music.play()
 
     def reset():
@@ -248,9 +248,9 @@ def main():
                 window.blit(infoFrame, (340, 100))
 
             if pauseMusic.num_clickedMute % 2:
-                mixer.music.pause()
+                Channel(1).pause()
             else:
-                mixer.music.unpause()
+                Channel(1).unpause()
 
 
             btn1 = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 250, 70, 270, 80, pygame.Rect(884, 145, 250, 70))
