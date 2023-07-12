@@ -185,25 +185,25 @@ def main():
                 else:
                     opacityG = 200
 
-                if stats["cookies"] >= 1500:
+                if stats["cookies"] >= 2000:
                     opacityO = 255
                     btn3.buttonClick(onButtonOvenClick)
                 else:
                     opacityO = 200
 
-                if stats["cookies"] >= 2500:
+                if stats["cookies"] >= 10000:
                     opacityFa = 255
                     btn4.buttonClick(onButtonFactoryClick)
                 else: 
                     opacityFa = 200
 
-                if stats["cookies"] >= 5000:
+                if stats["cookies"] >= 50000:
                     opacityA = 255
                     btn5.buttonClick(onButtonAliensClick)
                 else:
                     opacityA = 200
                 
-                if stats["cookies"] >= 10000:
+                if stats["cookies"] >= 100000:
                     update = True
                 
                 infoButton.buttonClick(onInfoClick)
@@ -267,7 +267,7 @@ def main():
             infoButton.drawButton()
             pauseMusic.drawButton()
 
-            if update and stats["win"] != 1 and stats["cookies"] >= 10000:
+            if update and stats["win"] != 1 and stats["cookies"] >= 100000:
                 titleScreen.drawUpdateCommingSoon()
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
