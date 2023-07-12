@@ -1,7 +1,6 @@
 import pygame
 import json
 import os
-from pygame import mixer
 from pygame.mixer import Channel
 from cookie import Cookie, cookieSound
 from gui import GUI
@@ -106,22 +105,22 @@ def main():
         stats["event"] = 1
 
     def onButtonOvenClick():
-        stats["cookies"] -= 1500
+        stats["cookies"] -= 2000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 15
+        stats["Ck_s"] += 20
         stats["oAmount"] += 1
 
 
     def onButtonFactoryClick():
-        stats["cookies"] -= 2500
+        stats["cookies"] -= 10000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 20
+        stats["Ck_s"] += 100
         stats["fAmount"] += 1
 
     def onButtonAliensClick():
-        stats["cookies"] -= 5000
+        stats["cookies"] -= 50000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 40
+        stats["Ck_s"] += 500
         stats["aAmount"] += 1
 
     def onInfoClick():
@@ -267,7 +266,7 @@ def main():
             infoButton.drawButton()
             pauseMusic.drawButton()
 
-            if update and stats["win"] != 1 and stats["cookies"] >= 100000:
+            if update and stats["win"] != 1 and stats["cookies"] >= 500000:
                 titleScreen.drawUpdateCommingSoon()
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
