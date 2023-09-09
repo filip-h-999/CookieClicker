@@ -8,6 +8,7 @@ from score import Score
 from buttons import Button
 from upgradeIcon import Image, Text
 from titleScreen import Title
+from playtime import PlaytimeDisplay
 
 
 def main():
@@ -25,7 +26,8 @@ def main():
         "fAmount": 0,
         "aAmount": 0,
         "event" : 0,
-        "win" : 0
+        "win" : 0,
+        "playtime": 0
     }
 
     pygame.init()
@@ -37,6 +39,7 @@ def main():
     gui = GUI(window)
     score = Score(window)
     titleScreen = Title(window)
+    playtime = PlaytimeDisplay(window)
 
     opacityF = 200
     opacityG = 200
@@ -90,6 +93,7 @@ def main():
         stats["event"] = 0
         stats["win"] = 0
         started = True
+        stats["playtime"] = 0
 
     def onButtonFingerClick():
         stats["cookies"] -= 50
@@ -207,7 +211,7 @@ def main():
                 
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
-        
+
         if not started:
             pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
             pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
@@ -217,10 +221,12 @@ def main():
             pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
             pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
             window.blit(window, (0, 0))
+            stats["playtime"] += playtime.ticks
+            playtime.run(stats["playtime"])
             gui.drawBackG()
             gui.drawFrame()
             score.drawScore(stats["cookies"])
-            
+
 
             if not ckClicked:
                 cookie.drawCookie()
