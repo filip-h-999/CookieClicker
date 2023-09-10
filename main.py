@@ -77,14 +77,14 @@ def main():
     tesla = Image(window, r"assets/upgrades/tesla.png", 80, 80)
     rocket = Image(window, r"assets/upgrades/rocket.png", 65, 65)
 
-    grannyAmount = Text(window, 50, ": %d" % stats["gAmount"], GREEN)
-    ovenAmount = Text(window, 50, ": %d" % stats["oAmount"], GREEN)
-    farmAmount = Text(window, 50, ": %d" % stats["farmAmount"], GREEN)
-    factoryAmount = Text(window, 50, ": %d" % stats["fAmount"], GREEN)
-    bankAmount = Text(window, 50, ": %d" % stats["bAmount"], GREEN)
-    aliensAmount = Text(window, 50, ": %d" % stats["aAmount"], GREEN)
-    teslaAmount = Text(window, 50, ": %d" % stats["tAmount"], GREEN)
-    rocketAmount = Text(window, 50, ": %d" % stats["rAmount"], GREEN)
+    grannyAmount = Text(window, 50, GREEN)
+    ovenAmount = Text(window, 50, GREEN)
+    farmAmount = Text(window, 50, GREEN)
+    factoryAmount = Text(window, 50, GREEN)
+    bankAmount = Text(window, 50, GREEN)
+    aliensAmount = Text(window, 50, GREEN)
+    teslaAmount = Text(window, 50, GREEN)
+    rocketAmount = Text(window, 50, GREEN)
 
     if os.path.exists("statsDic.json"):
         with open("statsDic.json", "r") as file:
@@ -304,36 +304,28 @@ def main():
                 cookie.drawBigCookies()
 
             granny.drawImage(430, 117)
-            grannyAmount.text = ": %d" % stats["gAmount"]
-            grannyAmount.drawText(520, 140)
+            grannyAmount.drawText(": %d" % stats["gAmount"], 520, 140)
 
             oven.drawImage(600, 117)
-            ovenAmount.text = ": %d" % stats["oAmount"]
-            ovenAmount.drawText(680, 140)
+            ovenAmount.drawText(": %d" % stats["oAmount"], 680, 140)
 
             farm.drawImage(425, 245)
-            farmAmount.text = ": %d" % stats["farmAmount"]
-            farmAmount.drawText(520, 270)
+            farmAmount.drawText(": %d" % stats["farmAmount"], 520, 270)
 
             factory.drawImage(600, 245)
-            factoryAmount.text = ": %d" % stats["fAmount"]
-            factoryAmount.drawText(680, 270)
+            factoryAmount.drawText(": %d" % stats["fAmount"], 680, 270)
 
             bank.drawImage(435, 385)
-            bankAmount.text = ": %d" % stats["bAmount"]
-            bankAmount.drawText(520, 400)
+            bankAmount.drawText(": %d" % stats["bAmount"], 520, 400)
 
             alien.drawImage(600, 375)
-            aliensAmount.text = ": %d" % stats["aAmount"]
-            aliensAmount.drawText(680, 400)
+            aliensAmount.drawText(": %d" % stats["aAmount"], 680, 400)
 
             tesla.drawImage(430, 515)
-            teslaAmount.text = ": %d" % stats["tAmount"]
-            teslaAmount.drawText(520, 530)
+            teslaAmount.drawText(": %d" % stats["tAmount"], 520, 530)
 
             rocket.drawImage(600, 515)
-            rocketAmount.text = ": %d" % stats["rAmount"]
-            rocketAmount.drawText(680, 530)
+            rocketAmount.drawText(": %d" % stats["rAmount"], 680, 530)
 
 
             if infoButton.num_clickedInfo % 2:

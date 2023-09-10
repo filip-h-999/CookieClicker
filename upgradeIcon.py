@@ -13,11 +13,10 @@ class Image:
 
 
 class Text:
-    def __init__(self, window, size, text, color):
+    def __init__(self, window, size, color):
         self.color = color
         self.window = window
         self.font1 = font.SysFont('didot.ttc', size)
-        self.text = text
 
-    def drawText(self, posX, posY):
-        self.window.blit(self.font1.render(self.text, True, self.color), (posX, posY))
+    def drawText(self, text, posX, posY):
+        self.window.blit(self.font1.render(text, True, self.color), (posX, posY))
