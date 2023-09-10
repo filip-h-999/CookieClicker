@@ -23,8 +23,13 @@ def main():
         "fingers" : 1,
         "gAmount": 0,
         "oAmount": 0,
+        "farmAmount": 0,
         "fAmount": 0,
+        "bAmount": 0,
         "aAmount": 0,
+        "tAmount": 0,
+        "rAmount": 0,
+        "eAmount": 0,
         "event" : 0,
         "win" : 0,
         "playtime": 0
@@ -44,8 +49,13 @@ def main():
     opacityF = 200
     opacityG = 200
     opacityO = 200
+    opacityFarm = 200
     opacityFa = 200
+    opacityB = 200
     opacityA = 200
+    opacityT = 200
+    opacityR = 200
+    opacityE = 200
 
     started = False
 
@@ -60,13 +70,21 @@ def main():
 
     granny = Image(window, r"assets/upgrades/granny.png", 80, 80)
     oven = Image(window, r"assets/upgrades/oven.png", 80, 80)
+    farm = Image(window, r"assets/upgrades/farm.png", 95, 80)
     factory = Image(window, r"assets/upgrades/factory.png", 80, 80)
+    bank = Image(window, r"assets/upgrades/bank.png", 65, 65)
     alien = Image(window, r"assets/upgrades/alien.png", 80, 80)
+    tesla = Image(window, r"assets/upgrades/tesla.png", 80, 80)
+    rocket = Image(window, r"assets/upgrades/rocket.png", 65, 65)
 
-    grannyAmount = Text(window, 50, "Amount: %d" % stats["gAmount"], GREEN)
-    ovenAmount = Text(window, 50, "Amount: %d" % stats["oAmount"], GREEN)
-    factoryAmount = Text(window, 50, "Amount: %d" % stats["fAmount"], GREEN)
-    aliensAmount = Text(window, 50, "Amount: %d" % stats["aAmount"], GREEN)
+    grannyAmount = Text(window, 50, ": %d" % stats["gAmount"], GREEN)
+    ovenAmount = Text(window, 50, ": %d" % stats["oAmount"], GREEN)
+    farmAmount = Text(window, 50, ": %d" % stats["farmAmount"], GREEN)
+    factoryAmount = Text(window, 50, ": %d" % stats["fAmount"], GREEN)
+    bankAmount = Text(window, 50, ": %d" % stats["bAmount"], GREEN)
+    aliensAmount = Text(window, 50, ": %d" % stats["aAmount"], GREEN)
+    teslaAmount = Text(window, 50, ": %d" % stats["tAmount"], GREEN)
+    rocketAmount = Text(window, 50, ": %d" % stats["rAmount"], GREEN)
 
     if os.path.exists("statsDic.json"):
         with open("statsDic.json", "r") as file:
@@ -88,8 +106,12 @@ def main():
         stats["fingers"] = 1
         stats["gAmount"] = 0
         stats["oAmount"] = 0
+        stats["farmAmount"] = 0
         stats["fAmount"] = 0
+        stats["bAmount"] = 0        
         stats["aAmount"] = 0
+        stats["tAmount"] = 0
+        stats["rAmount"] = 0
         stats["event"] = 0
         stats["win"] = 0
         started = True
@@ -109,23 +131,47 @@ def main():
         stats["event"] = 1
 
     def onButtonOvenClick():
-        stats["cookies"] -= 2000
+        stats["cookies"] -= 200
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 20
         stats["oAmount"] += 1
-
+    
+    def onButtonFarmClick():
+        stats["cookies"] -= 5000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 100 #! fix
+        stats["farmAmount"] += 1
 
     def onButtonFactoryClick():
-        stats["cookies"] -= 10000
+        stats["cookies"] -= 30000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 100
         stats["fAmount"] += 1
 
+    def onButtonBankClick():
+        stats["cookies"] -= 250000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 100 #! fix
+        stats["bAmount"] += 1
+
     def onButtonAliensClick():
-        stats["cookies"] -= 50000
+        stats["cookies"] -= 1250000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 500
         stats["aAmount"] += 1
+
+    def onButtonTeslaClick():
+        stats["cookies"] -= 6250000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 100 #! fix
+        stats["tAmount"] += 1
+
+    def onButtonRocketClick():
+        stats["cookies"] -= 31000000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 100 #! fix
+        stats["rAmount"] += 1
+
 
     def onInfoClick():
         infoButton.num_clickedInfo += 1
@@ -194,17 +240,41 @@ def main():
                 else:
                     opacityO = 200
 
-                if stats["cookies"] >= 10000:
+                if stats["cookies"] >= 5000:
+                    opacityFarm = 255
+                    farm_btn.buttonClick(onButtonFarmClick)
+                else:
+                    opacityFarm = 200
+
+                if stats["cookies"] >= 30000:
                     opacityFa = 255
                     fa_btn.buttonClick(onButtonFactoryClick)
                 else: 
                     opacityFa = 200
 
-                if stats["cookies"] >= 50000:
+                if stats["cookies"] >= 250000:
+                    opacityB = 255
+                    b_btn.buttonClick(onButtonBankClick)
+                else:
+                    opacityB = 200
+
+                if stats["cookies"] >= 1250000:
                     opacityA = 255
                     a_btn.buttonClick(onButtonAliensClick)
                 else:
                     opacityA = 200
+
+                if stats["cookies"] >= 6250000:
+                    opacityT = 255
+                    t_btn.buttonClick(onButtonTeslaClick)
+                else:
+                    opacityT = 200
+
+                if stats["cookies"] >= 31000000:
+                    opacityR = 255
+                    r_btn.buttonClick(onButtonRocketClick)
+                else:
+                    opacityR = 200
                 
                 if stats["cookies"] >= 100000:
                     update = True
@@ -221,7 +291,7 @@ def main():
             pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
             pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
             window.blit(window, (0, 0))
-            stats["playtime"] += playtime.ticks
+            stats["playtime"] += playtime.ticks / 4
             playtime.run(stats["playtime"])
             gui.drawBackG()
             gui.drawFrame()
@@ -234,20 +304,37 @@ def main():
                 cookie.drawBigCookies()
 
             granny.drawImage(430, 117)
-            grannyAmount.text = "Amount: %d" % stats["gAmount"]
+            grannyAmount.text = ": %d" % stats["gAmount"]
             grannyAmount.drawText(520, 140)
 
-            oven.drawImage(420, 245)
-            ovenAmount.text = "Amount: %d" % stats["oAmount"]
-            ovenAmount.drawText(520, 270)
+            oven.drawImage(600, 117)
+            ovenAmount.text = ": %d" % stats["oAmount"]
+            ovenAmount.drawText(680, 140)
 
-            factory.drawImage(425, 375)
-            factoryAmount.text = "Amount: %d" % stats["fAmount"]
-            factoryAmount.drawText(520, 400)
+            farm.drawImage(425, 245)
+            farmAmount.text = ": %d" % stats["farmAmount"]
+            farmAmount.drawText(520, 270)
 
-            alien.drawImage(430, 515)
-            aliensAmount.text = "Amount: %d" % stats["aAmount"]
-            aliensAmount.drawText(520, 530)
+            factory.drawImage(600, 245)
+            factoryAmount.text = ": %d" % stats["fAmount"]
+            factoryAmount.drawText(680, 270)
+
+            bank.drawImage(435, 385)
+            bankAmount.text = ": %d" % stats["bAmount"]
+            bankAmount.drawText(520, 400)
+
+            alien.drawImage(600, 375)
+            aliensAmount.text = ": %d" % stats["aAmount"]
+            aliensAmount.drawText(680, 400)
+
+            tesla.drawImage(430, 515)
+            teslaAmount.text = ": %d" % stats["tAmount"]
+            teslaAmount.drawText(520, 530)
+
+            rocket.drawImage(600, 515)
+            rocketAmount.text = ": %d" % stats["rAmount"]
+            rocketAmount.drawText(680, 530)
+
 
             if infoButton.num_clickedInfo % 2:
                 window.blit(infoFrame, (340, 100))
@@ -261,19 +348,19 @@ def main():
             f_btn = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 125, 70, 140, 80, pygame.Rect(870, 145, 140, 70))
             g_btn = Button(window, r"assets/buttons/Granny-buttons.png", opacityG, 125, 70, 140, 80, pygame.Rect(1005, 145, 140, 70))
             o_btn = Button(window, r"assets/buttons/Oven-buttons.png", opacityO, 125, 70, 140, 80, pygame.Rect(870, 230, 140, 70))
-            fam_btn = Button(window, r"assets/buttons/Farm-buttons.png", opacityO, 125, 70, 140, 80, pygame.Rect(1005, 230, 140, 70))
+            farm_btn = Button(window, r"assets/buttons/Farm-buttons.png", opacityFarm, 125, 70, 140, 80, pygame.Rect(1005, 230, 140, 70))
             fa_btn = Button(window, r"assets/buttons/Factory-buttons.png", opacityFa, 125, 70, 140, 80, pygame.Rect(870, 315, 140, 70))
-            b_btn = Button(window, r"assets/buttons/Bank-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(1005, 315, 140, 70))
+            b_btn = Button(window, r"assets/buttons/Bank-buttons.png", opacityB, 125, 70, 140, 80, pygame.Rect(1005, 315, 140, 70))
             a_btn = Button(window, r"assets/buttons/Aliens-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(870, 400, 140, 70))
-            t_btn = Button(window, r"assets/buttons/Tesla-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(1005, 400, 140, 70))
-            r_btn = Button(window, r"assets/buttons/Rocket-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(870, 485, 140, 70))
-            e_btn = Button(window, r"assets/buttons/Elon-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(1005, 485, 140, 70))
+            t_btn = Button(window, r"assets/buttons/Tesla-buttons.png", opacityT, 125, 70, 140, 80, pygame.Rect(1005, 400, 140, 70))
+            r_btn = Button(window, r"assets/buttons/Rocket-buttons.png", opacityR, 125, 70, 140, 80, pygame.Rect(870, 485, 140, 70))
+            e_btn = Button(window, r"assets/buttons/Elon-buttons.png", opacityE, 125, 70, 140, 80, pygame.Rect(1005, 485, 140, 70))
 
 
             f_btn.drawButton()
             g_btn.drawButton()
             o_btn.drawButton()
-            fam_btn.drawButton()
+            farm_btn.drawButton()
             fa_btn.drawButton()
             b_btn.drawButton()
             a_btn.drawButton()
