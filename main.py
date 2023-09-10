@@ -63,7 +63,7 @@ def main():
     timer_event = pygame.USEREVENT + 1
 
     InfoFrameImage = pygame.image.load(r"assets/images/info-Frame.png")
-    infoFrame = pygame.transform.scale(InfoFrameImage, (500, 500))
+    infoFrame = pygame.transform.scale(InfoFrameImage, (600, 600))
 
     infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
     pauseMusic = Button(window, r"assets/images/mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
@@ -317,7 +317,7 @@ def main():
 
 
             if infoButton.num_clickedInfo % 2:
-                window.blit(infoFrame, (340, 100))
+                window.blit(infoFrame, (270, 0))
 
             if pauseMusic.num_clickedMute % 2:
                 Channel(1).pause()
