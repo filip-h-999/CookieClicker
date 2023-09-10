@@ -178,31 +178,31 @@ def main():
                 ckClicked = False
                 if stats["cookies"] >= 50:
                     opacityF = 255
-                    btn1.buttonClick(onButtonFingerClick)
+                    f_btn.buttonClick(onButtonFingerClick)
                 else:
                     opacityF = 200
 
                 if stats["cookies"] >= 500:
                     opacityG = 255
-                    btn2.buttonClick(onButtonGrannyClick)
+                    g_btn.buttonClick(onButtonGrannyClick)
                 else:
                     opacityG = 200
 
                 if stats["cookies"] >= 2000:
                     opacityO = 255
-                    btn3.buttonClick(onButtonOvenClick)
+                    o_btn.buttonClick(onButtonOvenClick)
                 else:
                     opacityO = 200
 
                 if stats["cookies"] >= 10000:
                     opacityFa = 255
-                    btn4.buttonClick(onButtonFactoryClick)
+                    fa_btn.buttonClick(onButtonFactoryClick)
                 else: 
                     opacityFa = 200
 
                 if stats["cookies"] >= 50000:
                     opacityA = 255
-                    btn5.buttonClick(onButtonAliensClick)
+                    a_btn.buttonClick(onButtonAliensClick)
                 else:
                     opacityA = 200
                 
@@ -258,17 +258,28 @@ def main():
                 Channel(1).unpause()
 
 
-            btn1 = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 250, 70, 270, 80, pygame.Rect(884, 145, 250, 70))
-            btn2 = Button(window, r"assets/buttons/Granny-buttons.png", opacityG, 250, 70, 270, 80, pygame.Rect(884, 230, 250, 70))
-            btn3 = Button(window, r"assets/buttons/Oven-buttons.png", opacityO, 250, 70, 270, 80, pygame.Rect(884, 315, 250, 70))
-            btn4 = Button(window, r"assets/buttons/Factory-buttons.png", opacityFa, 250, 70, 270, 80, pygame.Rect(884, 315 + 85, 250, 70))
-            btn5 = Button(window, r"assets/buttons/Aliens-buttons.png", opacityA, 250, 70, 270, 80, pygame.Rect(884, 315 + 170, 250, 70))
-            
-            btn1.drawButton()
-            btn2.drawButton()
-            btn3.drawButton()
-            btn4.drawButton()
-            btn5.drawButton()
+            f_btn = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 125, 70, 140, 80, pygame.Rect(870, 145, 140, 70))
+            g_btn = Button(window, r"assets/buttons/Granny-buttons.png", opacityG, 125, 70, 140, 80, pygame.Rect(1005, 145, 140, 70))
+            o_btn = Button(window, r"assets/buttons/Oven-buttons.png", opacityO, 125, 70, 140, 80, pygame.Rect(870, 230, 140, 70))
+            fam_btn = Button(window, r"assets/buttons/Farm-buttons.png", opacityO, 125, 70, 140, 80, pygame.Rect(1005, 230, 140, 70))
+            fa_btn = Button(window, r"assets/buttons/Factory-buttons.png", opacityFa, 125, 70, 140, 80, pygame.Rect(870, 315, 140, 70))
+            b_btn = Button(window, r"assets/buttons/Bank-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(1005, 315, 140, 70))
+            a_btn = Button(window, r"assets/buttons/Aliens-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(870, 400, 140, 70))
+            t_btn = Button(window, r"assets/buttons/Tesla-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(1005, 400, 140, 70))
+            r_btn = Button(window, r"assets/buttons/Rocket-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(870, 485, 140, 70))
+            e_btn = Button(window, r"assets/buttons/Elon-buttons.png", opacityA, 125, 70, 140, 80, pygame.Rect(1005, 485, 140, 70))
+
+
+            f_btn.drawButton()
+            g_btn.drawButton()
+            o_btn.drawButton()
+            fam_btn.drawButton()
+            fa_btn.drawButton()
+            b_btn.drawButton()
+            a_btn.drawButton()
+            t_btn.drawButton()
+            r_btn.drawButton()
+            e_btn.drawButton()
             infoButton.drawButton()
             pauseMusic.drawButton()
 
