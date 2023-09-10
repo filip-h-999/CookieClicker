@@ -127,11 +127,11 @@ def main():
         stats["cookies"] -= 500
         pygame.time.set_timer(timer_event, 1000)
         stats["gAmount"] += 1
-        stats["Ck_s"] += 10
+        stats["Ck_s"] += 5
         stats["event"] = 1
 
     def onButtonOvenClick():
-        stats["cookies"] -= 200
+        stats["cookies"] -= 2000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 20
         stats["oAmount"] += 1
@@ -139,39 +139,44 @@ def main():
     def onButtonFarmClick():
         stats["cookies"] -= 5000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 100 #! fix
+        stats["Ck_s"] += 50
         stats["farmAmount"] += 1
 
     def onButtonFactoryClick():
         stats["cookies"] -= 30000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 100
+        stats["Ck_s"] += 300
         stats["fAmount"] += 1
 
     def onButtonBankClick():
         stats["cookies"] -= 250000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 100 #! fix
+        stats["Ck_s"] += 2500
         stats["bAmount"] += 1
 
     def onButtonAliensClick():
         stats["cookies"] -= 1250000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 500
+        stats["Ck_s"] += 12500
         stats["aAmount"] += 1
 
     def onButtonTeslaClick():
         stats["cookies"] -= 6250000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 100 #! fix
+        stats["Ck_s"] += 62500
         stats["tAmount"] += 1
 
     def onButtonRocketClick():
         stats["cookies"] -= 31000000
         pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 100 #! fix
+        stats["Ck_s"] += 310000
         stats["rAmount"] += 1
 
+    def get_opacity(cookie_value):
+        if stats["cookies"] >= cookie_value:
+            return 255
+        else:
+            return 200
 
     def onInfoClick():
         infoButton.num_clickedInfo += 1
@@ -223,58 +228,31 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
                 if stats["cookies"] >= 50:
-                    opacityF = 255
                     f_btn.buttonClick(onButtonFingerClick)
-                else:
-                    opacityF = 200
 
                 if stats["cookies"] >= 500:
-                    opacityG = 255
                     g_btn.buttonClick(onButtonGrannyClick)
-                else:
-                    opacityG = 200
 
                 if stats["cookies"] >= 2000:
-                    opacityO = 255
                     o_btn.buttonClick(onButtonOvenClick)
-                else:
-                    opacityO = 200
 
                 if stats["cookies"] >= 5000:
-                    opacityFarm = 255
                     farm_btn.buttonClick(onButtonFarmClick)
-                else:
-                    opacityFarm = 200
 
                 if stats["cookies"] >= 30000:
-                    opacityFa = 255
                     fa_btn.buttonClick(onButtonFactoryClick)
-                else: 
-                    opacityFa = 200
 
                 if stats["cookies"] >= 250000:
-                    opacityB = 255
                     b_btn.buttonClick(onButtonBankClick)
-                else:
-                    opacityB = 200
 
                 if stats["cookies"] >= 1250000:
-                    opacityA = 255
                     a_btn.buttonClick(onButtonAliensClick)
-                else:
-                    opacityA = 200
 
                 if stats["cookies"] >= 6250000:
-                    opacityT = 255
                     t_btn.buttonClick(onButtonTeslaClick)
-                else:
-                    opacityT = 200
 
                 if stats["cookies"] >= 31000000:
-                    opacityR = 255
                     r_btn.buttonClick(onButtonRocketClick)
-                else:
-                    opacityR = 200
                 
                 if stats["cookies"] >= 100000:
                     update = True
@@ -297,6 +275,16 @@ def main():
             gui.drawFrame()
             score.drawScore(stats["cookies"])
 
+            opacityF = get_opacity(50)
+            opacityG = get_opacity(500)
+            opacityO = get_opacity(2000)
+            opacityFarm = get_opacity(5000)
+            opacityFa = get_opacity(30000)
+            opacityB = get_opacity(250000)
+            opacityA = get_opacity(125000)
+            opacityT = get_opacity(620000)
+            opacityR = get_opacity(31000000)
+            opacityE = get_opacity(1000000000)
 
             if not ckClicked:
                 cookie.drawCookie()
