@@ -254,8 +254,8 @@ def main():
                 if stats["cookies"] >= 31000000:
                     r_btn.buttonClick(onButtonRocketClick)
                 
-                if stats["cookies"] >= 100000:
-                    update = True
+                # if stats["cookies"] >= 100000:
+                #     update = True
                 
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
@@ -335,7 +335,6 @@ def main():
             t_btn = Button(window, r"assets/buttons/Tesla-buttons.png", opacityT, 125, 70, 140, 80, pygame.Rect(1005, 400, 140, 70))
             r_btn = Button(window, r"assets/buttons/Rocket-buttons.png", opacityR, 125, 70, 140, 80, pygame.Rect(870, 485, 140, 70))
             e_btn = Button(window, r"assets/buttons/Elon-buttons.png", opacityE, 125, 70, 140, 80, pygame.Rect(1005, 485, 140, 70))
-
 
             f_btn.drawButton()
             g_btn.drawButton()
