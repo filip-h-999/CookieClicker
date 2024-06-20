@@ -1,6 +1,6 @@
 import pygame
 from pygame.rect import Rect
-from cookie import Cookie
+# from cookie import Cookie
 
 
 class Button:
@@ -8,7 +8,7 @@ class Button:
                  hoverSizeX, hoverSizeY, rect: Rect = None):
         self.num_clickedInfo = 0
         self.num_clickedMute = 0
-        self.cookie = Cookie(window)
+        # self.cookie = Cookie(window)
         self.window = window
         self.black = 0, 0, 0
         self.brightRed = 255, 0, 0
