@@ -2,7 +2,7 @@ import pygame
 
 
 class GUI:
-    def __init__(self, window, path, shopBgPath, shopSize, shopFramePath, frameIcon, upgradeFramePath):
+    def __init__(self, window, path, shopBgPath, shopSize, shopFramePath, frameIcon, upgradeFramePath, posXY):
         self.window = window
         self.black = 0, 0, 0
         self.BACK_WIDTH = 800 * 1.5
@@ -22,7 +22,7 @@ class GUI:
         # frame2Image = pygame.image.load(r"assets/images/frame2.png")
         self.frame2 = pygame.transform.scale(frameIcon, (500, 150))
         # upgradeFrameImage = pygame.image.load(r"assets/images/upgradesFrame.png")
-        self.upgradeFrame = pygame.transform.scale(upgradeFramePath, (300, 100))
+        self.upgradeFrame = pygame.transform.scale(upgradeFramePath, (posXY))
 
     def drawBackG(self):
         self.window.blit(self.back, (0, 0))
