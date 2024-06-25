@@ -48,6 +48,7 @@ def main():
     pygame.display.set_caption("Cookie Clicker")
     GREEN = 0, 255, 0
     LIGHTBLUE = 0, 255, 255
+    BROWN = 139, 69, 19
 
 
     if os.path.exists("statsDic.json"):
@@ -170,6 +171,16 @@ def main():
         Channel(1).set_volume(0.1)
         # mixer.music.play()
 
+    def musicLvl2():
+        backgroundMusic = r"assets/sounds/beat2.mp3"
+        pygame.mixer.Channel(2).play(pygame.mixer.Sound(backgroundMusic), loops=-1)
+        Channel(2).set_volume(0.1)
+    
+    def playEmonMa():
+        emonMa = r"assets\sounds\elonma.mp3"
+        pygame.mixer.Channel(3).play(pygame.mixer.Sound(emonMa), loops=0)
+        Channel(3).set_volume(0.5)
+
     def reset():
         global started, cookie, gui, score
         started = True
@@ -196,6 +207,8 @@ def main():
         stats["event"] = 0
         stats["nextLvL"] = 0
         stats["playtime"] = 0
+
+        Channel(2).stop()
 
     def onButtonFingerClick():
         stats["cookies"] -= 50
@@ -252,6 +265,61 @@ def main():
         stats["Ck_s"] += 150000
         stats["rAmount"] += 1
 
+    def onButtonElonClick():
+        stats["cookies"] -= 10000000000
+        stats["eAmount"] += 1
+        playEmonMa()
+        Channel(1).stop()
+
+        #* lvl2
+    def onButtonBatteryClick():
+        stats["cookies"] -= 150
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 3
+        stats["batteryAmount"] += 1
+
+    def onButtonRoboArmClick():
+        stats["cookies"] -= 1500
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 15
+        stats["roboArmAmount"] += 1
+
+    def onButtonBotClick():
+        stats["cookies"] -= 6000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 60
+        stats["botAmount"] += 1
+
+    def onButtonAiClick():
+        stats["cookies"] -= 15000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 150
+        stats["aiAmount"] += 1
+
+    def onButtonSolarClick():
+        stats["cookies"] -= 90000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 900
+        stats["solarAmount"] += 1
+
+    def onButtonGigaClick():
+        stats["cookies"] -= 750000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 9000
+        stats["gigaAmount"] += 1
+
+    def onButtonCiberClick():
+        stats["cookies"] -= 31000000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 180000
+        stats["ciberAmount"] += 1
+
+    def onButtonTwitterClick():
+        stats["cookies"] -= 3000000000
+        pygame.time.set_timer(timer_event, 1000)
+        stats["Ck_s"] += 15000000
+        stats["twitterAmount"] += 1
+
     def get_opacity(cookie_value):
         if stats["cookies"] >= cookie_value:
             return 255
@@ -263,6 +331,13 @@ def main():
 
     def onMuteClick():
         pauseMusic.num_clickedMute += 1
+
+    def checkIfMaxAmount(whatAmount, statsAmount, x, y):
+        if stats[statsAmount] == 200:
+            whatAmount.drawText("max", x, y)
+        else:
+            whatAmount.drawText(": %d" % stats[statsAmount], x, y)
+
 
     while running:
         for event in pygame.event.get():
@@ -281,7 +356,10 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     started = True
-                    music()
+                    if stats["nextLvL"] == 0:
+                        music()
+                    else:
+                        musicLvl2()
 
                     if stats["event"] == 1:
                         pygame.time.set_timer(timer_event, 1000)
@@ -303,6 +381,7 @@ def main():
                     stats["nextLvL"] += 1
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
+                    musicLvl2()
                     stone()
                     with open("statsDic.json", "w") as file:
                         json.dump(stats, file)
@@ -325,35 +404,65 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
-                if stats["cookies"] >= 50:
-                    f_btn.buttonClick(onButtonFingerClick)
+                if stats["nextLvL"] == 0:
+                    if stats["cookies"] >= 50 and stats["fingers"] <= 199:
+                        f_btn.buttonClick(onButtonFingerClick)
 
-                if stats["cookies"] >= 500:
-                    g_btn.buttonClick(onButtonGrannyClick)
+                    if stats["cookies"] >= 500 and stats["gAmount"] <= 199:
+                        g_btn.buttonClick(onButtonGrannyClick)
 
-                if stats["cookies"] >= 2000:
-                    o_btn.buttonClick(onButtonOvenClick)
+                    if stats["cookies"] >= 2000 and stats["oAmount"] <= 199:
+                        o_btn.buttonClick(onButtonOvenClick)
 
-                if stats["cookies"] >= 5000:
-                    farm_btn.buttonClick(onButtonFarmClick)
+                    if stats["cookies"] >= 5000 and stats["farmAmount"] <= 199:
+                        farm_btn.buttonClick(onButtonFarmClick)
 
-                if stats["cookies"] >= 30000:
-                    fa_btn.buttonClick(onButtonFactoryClick)
+                    if stats["cookies"] >= 30000 and stats["fAmount"] <= 199:
+                        fa_btn.buttonClick(onButtonFactoryClick)
 
-                if stats["cookies"] >= 250000:
-                    b_btn.buttonClick(onButtonBankClick)
+                    if stats["cookies"] >= 250000 and stats["bAmount"] <= 199:
+                        b_btn.buttonClick(onButtonBankClick)
 
-                if stats["cookies"] >= 1250000:
-                    a_btn.buttonClick(onButtonAliensClick)
+                    if stats["cookies"] >= 1250000 and stats["aAmount"] <= 199:
+                        a_btn.buttonClick(onButtonAliensClick)
 
-                if stats["cookies"] >= 6250000:
-                    t_btn.buttonClick(onButtonTeslaClick)
+                    if stats["cookies"] >= 6250000 and stats["tAmount"] <= 199:
+                        t_btn.buttonClick(onButtonTeslaClick)
 
-                if stats["cookies"] >= 31000000:
-                    r_btn.buttonClick(onButtonRocketClick)
+                    if stats["cookies"] >= 31000000 and stats["rAmount"] <= 199:
+                        r_btn.buttonClick(onButtonRocketClick)
+                    
+                    if stats["cookies"] >= 10000000000:
+                        e_btn.buttonClick(onButtonElonClick)
+                        nextLvlScreen = True
+                else:
+                    #* lvl2
+                    if stats["cookies"] >= 150 and stats["batteryAmount"] <= 199:
+                        battery_btn.buttonClick(onButtonBatteryClick)
 
-                if stats["cookies"] >= 9:
-                    nextLvlScreen = True
+                    if stats["cookies"] >= 1500 and stats["roboArmAmount"] <= 199:
+                        roboArm_btn.buttonClick(onButtonRoboArmClick)
+
+                    if stats["cookies"] >= 6000 and stats["botAmount"] <= 199:
+                        bot_btn.buttonClick(onButtonBotClick)
+
+                    if stats["cookies"] >= 15000 and stats["aiAmount"] <= 199:
+                        ai_btn.buttonClick(onButtonAiClick)
+
+                    if stats["cookies"] >= 90000 and stats["solarAmount"] <= 199:
+                        solar_btn.buttonClick(onButtonSolarClick)
+
+                    if stats["cookies"] >= 750000 and stats["gigaAmount"] <= 199:
+                        giga_btn.buttonClick(onButtonGigaClick)
+
+                    if stats["cookies"] >= 31000000 and stats["ciberAmount"] <= 199:
+                        ciber_btn.buttonClick(onButtonCiberClick)
+
+                    if stats["cookies"] >= 3000000000:
+                        twitter_btn.buttonClick(onButtonTwitterClick)
+
+                # if stats["cookies"] >= 9:
+                #     nextLvlScreen = True
 
                 infoButton.buttonClick(onInfoClick)
                 pauseMusic.buttonClick(onMuteClick)
@@ -373,14 +482,14 @@ def main():
 
             if stats["nextLvL"] > 0:
                 gui.drawFrame((843, 100), (442, 10))
-                score.drawScore(stats["cookies"], (50, 4))
+                score.drawScore(stats["cookies"], (50, 4), LIGHTBLUE)
                 if not ckClicked:
                     cookie.drawCookie((40, 160))
                 else:
                     cookie.drawBigCookies()
             else:
                 gui.drawFrame((815, 60), (442, 0))
-                score.drawScore(stats["cookies"], (60, 6))
+                score.drawScore(stats["cookies"], (60, 6), GREEN)
                 if not ckClicked:
                     cookie.drawCookie((36, 190))
                 else:
@@ -408,60 +517,77 @@ def main():
 
             if stats["nextLvL"] == 0:
                 granny.drawImage(430, 117)
-                grannyAmount.drawText(": %d" % stats["gAmount"], 520, 140)
+                checkIfMaxAmount(grannyAmount, "gAmount", 520, 140)
+                # grannyAmount.drawText(": %d" % stats["gAmount"], 520, 140)
 
                 oven.drawImage(600, 117)
-                ovenAmount.drawText(": %d" % stats["oAmount"], 680, 140)
+                checkIfMaxAmount(ovenAmount, "oAmount", 680, 140)
+                # ovenAmount.drawText(": %d" % stats["oAmount"], 680, 140)
 
                 farm.drawImage(425, 245)
-                farmAmount.drawText(": %d" % stats["farmAmount"], 520, 270)
+                checkIfMaxAmount(farmAmount, "farmAmount", 520, 270)
+                # farmAmount.drawText(": %d" % stats["farmAmount"], 520, 270)
 
                 factory.drawImage(600, 245)
-                factoryAmount.drawText(": %d" % stats["fAmount"], 680, 270)
+                checkIfMaxAmount(factoryAmount, "fAmount", 680, 270)
+                # factoryAmount.drawText(": %d" % stats["fAmount"], 680, 270)
 
                 bank.drawImage(435, 385)
-                bankAmount.drawText(": %d" % stats["bAmount"], 520, 400)
+                checkIfMaxAmount(bankAmount, "bAmount", 520, 400)
+                # bankAmount.drawText(": %d" % stats["bAmount"], 520, 400)
 
                 alien.drawImage(600, 375)
-                aliensAmount.drawText(": %d" % stats["aAmount"], 680, 400)
+                checkIfMaxAmount(aliensAmount, "aAmount", 680, 400)
+                # aliensAmount.drawText(": %d" % stats["aAmount"], 680, 400)
 
                 tesla.drawImage(430, 515)
-                teslaAmount.drawText(": %d" % stats["tAmount"], 520, 530)
+                checkIfMaxAmount(teslaAmount, "tAmount", 520, 530)
+                # teslaAmount.drawText(": %d" % stats["tAmount"], 520, 530)
 
                 rocket.drawImage(600, 515)
-                rocketAmount.drawText(": %d" % stats["rAmount"], 680, 530)
+                checkIfMaxAmount(rocketAmount, "rAmount", 680, 530)
+                # rocketAmount.drawText(": %d" % stats["rAmount"], 680, 530)
             else:
                 battey.drawImage(440, 127)
-                batteryAmount.drawText(": %d" % stats["batteryAmount"], 520, 140)
+                checkIfMaxAmount(batteryAmount, "batteryAmount", 520, 140)
+                # batteryAmount.drawText(": %d" % stats["batteryAmount"], 520, 140)
 
                 roboArm.drawImage(600, 117)
-                roboArmAmount.drawText(": %d" % stats["roboArmAmount"], 680, 140)
+                checkIfMaxAmount(roboArmAmount, "roboArmAmount", 680, 140)
+                # roboArmAmount.drawText(": %d" % stats["roboArmAmount"], 680, 140)
 
                 bot.drawImage(425, 250)
-                botAmount.drawText(": %d" % stats["botAmount"], 520, 270)
+                checkIfMaxAmount(botAmount, "botAmount", 520, 270)
+                # botAmount.drawText(": %d" % stats["botAmount"], 520, 270)
 
                 ai.drawImage(600, 245)
-                aiAmount.drawText(": %d" % stats["aiAmount"], 680, 270)
+                checkIfMaxAmount(aiAmount, "aiAmount", 680, 270)
+                # aiAmount.drawText(": %d" % stats["aiAmount"], 680, 270)
 
                 solar.drawImage(435, 385)
-                solarAmount.drawText(": %d" % stats["solarAmount"], 520, 400)
+                checkIfMaxAmount(solarAmount, "solarAmount", 520, 400)
+                # solarAmount.drawText(": %d" % stats["solarAmount"], 520, 400)
 
                 giga.drawImage(600, 375)
-                gigaAmount.drawText(": %d" % stats["gigaAmount"], 680, 400)
+                checkIfMaxAmount(gigaAmount, "gigaAmount", 680, 400)
+                # gigaAmount.drawText(": %d" % stats["gigaAmount"], 680, 400)
 
                 ciber.drawImage(430, 505)
-                ciberAmount.drawText(": %d" % stats["ciberAmount"], 520, 530)
+                checkIfMaxAmount(ciberAmount, "ciberAmount", 520, 530)
+                # ciberAmount.drawText(": %d" % stats["ciberAmount"], 520, 530)
 
                 twitter.drawImage(600, 520)
-                twitterAmount.drawText(": %d" % stats["twitterAmount"], 680, 530)
+                checkIfMaxAmount(twitterAmount, "twitterAmount", 680, 530)
+                # twitterAmount.drawText(": %d" % stats["twitterAmount"], 680, 530)
 
             if infoButton.num_clickedInfo % 2:
                 window.blit(infoFrame, (270, 0))
 
+            channel_id = 1 if stats["nextLvL"] == 0 else 2
             if pauseMusic.num_clickedMute % 2:
-                Channel(1).pause()
+                Channel(channel_id).pause()
             else:
-                Channel(1).unpause()
+                Channel(channel_id).unpause()
 
 
             f_btn = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 125, 70, 140, 80, pygame.Rect(870, 145, 140, 70))
@@ -508,7 +634,7 @@ def main():
             infoButton.drawButton()
             pauseMusic.drawButton()
 
-            if nextLvlScreen and stats["cookies"] >= 10:
+            if nextLvlScreen and stats["eAmount"] != 0:
                 titleScreen.drawNextLvlScreen()
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
