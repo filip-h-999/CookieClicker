@@ -75,19 +75,19 @@ def main():
     def stone():
         global cookie, gui, score, titleScreen
         cookie = Cookie(
-            window, pygame.image.load(r"assets\images\batery.png"), 270, 310
+            window, pygame.image.load(r"assets\images\lvlTwo\batery.png"), 270, 310
         )
         gui = GUI(
             window,
-            pygame.image.load(r"assets\images\backgoundStone.png"),
-            pygame.image.load(r"assets\images\shop2_stone.png"),
+            pygame.image.load(r"assets\images\lvlTwo\backgoundStone.png"),
+            pygame.image.load(r"assets\images\lvlTwo\shop2_stone.png"),
             (320, 530),
-            pygame.image.load(r"assets\images\shop_stone.png"),
-            pygame.image.load(r"assets\images\frameLVL2.png"),
-            pygame.image.load(r"assets\images\upgrade_stone.png"),
+            pygame.image.load(r"assets\images\lvlTwo\shop_stone.png"),
+            pygame.image.load(r"assets\images\lvlTwo\frame2.png"),
+            pygame.image.load(r"assets\images\lvlTwo\upgrade_stone.png"),
             (300, 75)
         )
-        score = Score(window, pygame.image.load(r"assets/images/batteryFrame.png"))
+        score = Score(window, pygame.image.load(r"assets\images\lvlTwo\batteryFrame.png"))
 
     if stats["nextLvL"] != 0:
         stone()
@@ -123,6 +123,9 @@ def main():
 
     InfoFrameImage = pygame.image.load(r"assets/images/info-Frame.png")
     infoFrame = pygame.transform.scale(InfoFrameImage, (600, 600))
+
+    InfoFrameImage2 = pygame.image.load(r"assets\images\lvlTwo\info-Frame2.png")
+    infoFrame2 = pygame.transform.scale(InfoFrameImage2, (900, 600))
 
     pauseMusic = Button(window, r"assets/images/mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
 
@@ -320,7 +323,7 @@ def main():
         stats["Ck_s"] += 15000000
         stats["twitterAmount"] += 1
 
-    def get_opacity(cookie_value):
+    def setOpacity(cookie_value):
         if stats["cookies"] >= cookie_value:
             return 255
         else:
@@ -338,6 +341,12 @@ def main():
         else:
             whatAmount.drawText(": %d" % stats[statsAmount], x, y)
 
+    def checkIfAllMax():
+        if all(value == 200 for value in [stats["gAmount"], stats["oAmount"], stats["farmAmount"], stats["fAmount"], stats["bAmount"], stats["aAmount"], stats["tAmount"], stats["rAmount"]]):
+            return True
+        else:
+            return False
+
 
     while running:
         for event in pygame.event.get():
@@ -349,9 +358,9 @@ def main():
             if event.type == timer_event:
                 stats["cookies"] += stats["Ck_s"]
                 if stats["nextLvL"] != 0 and stats["gAmount"] > 0:
-                    cookie.clickCookie(clickSoundBattery)
+                    cookie.clickCookie(clickSoundBattery, "on")
                 elif stats["nextLvL"] == 0 and stats["gAmount"] > 0:
-                    cookie.clickCookie(clickSoundCookie)
+                    cookie.clickCookie(clickSoundCookie, "on")
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -398,9 +407,9 @@ def main():
                     ckClicked = True
                     stats["cookies"] += stats["fingers"]
                     if stats["nextLvL"] != 0:
-                        cookie.clickCookie(clickSoundBattery)
+                        cookie.clickCookie(clickSoundBattery, "on")
                     else:
-                        cookie.clickCookie(clickSoundCookie)
+                        cookie.clickCookie(clickSoundCookie, "on")
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
@@ -432,7 +441,7 @@ def main():
                     if stats["cookies"] >= 31000000 and stats["rAmount"] <= 199:
                         r_btn.buttonClick(onButtonRocketClick)
                     
-                    if stats["cookies"] >= 10000000000:
+                    if stats["cookies"] >= 10000000000 and checkIfAllMax():
                         e_btn.buttonClick(onButtonElonClick)
                         nextLvlScreen = True
                 else:
@@ -495,25 +504,29 @@ def main():
                 else:
                     cookie.drawBigCookies()
 
-            opacityF = get_opacity(50)
-            opacityG = get_opacity(500)
-            opacityO = get_opacity(2000)
-            opacityFarm = get_opacity(5000)
-            opacityFa = get_opacity(30000)
-            opacityB = get_opacity(250000)
-            opacityA = get_opacity(1250000)
-            opacityT = get_opacity(6200000)
-            opacityR = get_opacity(31000000)
-            opacityE = get_opacity(10000000000)
+            opacityF = setOpacity(50)
+            opacityG = setOpacity(500)
+            opacityO = setOpacity(2000)
+            opacityFarm = setOpacity(5000)
+            opacityFa = setOpacity(30000)
+            opacityB = setOpacity(250000)
+            opacityA = setOpacity(1250000)
+            opacityT = setOpacity(6200000)
+            opacityR = setOpacity(31000000)
+            if checkIfAllMax():
+                opacityE = setOpacity(10000000000)
+            else:
+                opacityE = 175
 
-            opacityBattery = get_opacity(150)
-            opacityRoboArm = get_opacity(1500)
-            opacityBot = get_opacity(6000)
-            opacityAi = get_opacity(15000)
-            opacitySolar = get_opacity(90000)
-            opacityGiga = get_opacity(750000)
-            opacityCiber = get_opacity(31000000)
-            opacityTwitter = get_opacity(3000000000)
+            opacityBattery = setOpacity(150)
+            opacityRoboArm = setOpacity(1500)
+            opacityBot = setOpacity(6000)
+            opacityAi = setOpacity(15000)
+            opacitySolar = setOpacity(90000)
+            opacityGiga = setOpacity(750000)
+            opacityCiber = setOpacity(31000000)
+            opacityTwitter = setOpacity(3000000000)
+            opacityMystery = 160
 
             if stats["nextLvL"] == 0:
                 granny.drawImage(430, 117)
@@ -580,8 +593,10 @@ def main():
                 checkIfMaxAmount(twitterAmount, "twitterAmount", 680, 530)
                 # twitterAmount.drawText(": %d" % stats["twitterAmount"], 680, 530)
 
-            if infoButton.num_clickedInfo % 2:
+            if infoButton.num_clickedInfo % 2 and stats["nextLvL"] == 0:
                 window.blit(infoFrame, (270, 0))
+            elif infoButton.num_clickedInfo % 2 and stats["nextLvL"] != 0:
+                window.blit(infoFrame2, (145, 43))
 
             channel_id = 1 if stats["nextLvL"] == 0 else 2
             if pauseMusic.num_clickedMute % 2:
@@ -609,6 +624,7 @@ def main():
             giga_btn = Button(window, r"assets\buttons\lvl2\buttonsGigafactory.png", opacityGiga, 125, 70, 140, 80, pygame.Rect(1002, 335, 140, 70))
             ciber_btn = Button(window, r"assets\buttons\lvl2\buttonsCiber.png", opacityCiber, 125, 70, 140, 80, pygame.Rect(867, 420, 140, 70))
             twitter_btn = Button(window, r"assets\buttons\lvl2\buttonsTwitter.png", opacityTwitter, 125, 70, 140, 80, pygame.Rect(1002, 420, 140, 70))
+            mystery_btn = Button(window, r"assets\buttons\lvl2\buttonsMystery.png", opacityMystery, 125*2.2, 100, 140*2.1, 110, pygame.Rect(935, 505, 140, 70))
 
             if stats["nextLvL"] == 0:
                 f_btn.drawButton()
@@ -630,14 +646,17 @@ def main():
                 giga_btn.drawButton()
                 ciber_btn.drawButton()
                 twitter_btn.drawButton()
+                mystery_btn.drawButton()
 
             infoButton.drawButton()
             pauseMusic.drawButton()
 
             if nextLvlScreen and stats["eAmount"] != 0:
                 titleScreen.drawNextLvlScreen()
+                cookie.clickCookie(clickSoundCookie, "off")
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
+                
 
         pygame.display.update()
         clock.tick(60)
