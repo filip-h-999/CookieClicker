@@ -1,29 +1,57 @@
-# Cookie Clicker
+# Cookie Clicker Enhanced Edition
 
-Welcome to Cookie Clicker! This is a simple and addictive idle clicking game where your goal is to click as many cookies as possible. Click your way to cookie glory and become the ultimate cookie clicker!
+Welcome to the enhanced edition of Cookie Clicker! Dive into this simple yet addictive idle clicking game where your goal is to amass a fortune in cookies. Click your way to the top and become the ultimate cookie mogul!
 
-![Alt text](assets/images/titlescreen.jpg)
+![Alt text](assets\images\titlescreen.png)
 
-Press p to play and r to reset the Cookie Score
+Press `p` to play and `r` to reset your Cookie Score.
 
-# How to paly
+## How to Play
 
-Click the Cookie: The main objective of the game is to click on the giant cookie as fast as you can. Each click earns you a certain number of cookies. Clicking repeatedly will quickly increase your cookie count.
+**Click the Cookie:** Your primary goal is to click on the giant cookie to earn cookies. Each click increases your cookie count, and rapid clicking will boost your cookie stash significantly.
 
-Upgrade Your Cookie Production: As you accumulate cookies, you can spend them on upgrades to boost your cookie production. There are five upgrades available:
+**Upgrade Your Cookie Production:** Use your cookies to purchase upgrades and boost your production. There are several upgrades available, each enhancing your cookie production in different ways.
 
-![Alt text](assets/images/info-Frame.png)
+### Upgrades:
 
-    Finger: Purchase the Finger upgrade to increase your cookie output by +2 cookies per click. This means that each time you click the cookie, you will earn an additional 2 cookies.
+- **Finger:** Each Finger upgrade adds +2 cookies per click, increasing the number of cookies you earn with each click.
 
-    Granny: The Granny upgrade increases your cookie production by +10 cookie per second (cps). This passive increase allows you to earn more cookies even when you're not actively clicking.
+- **Granny:** The Granny upgrade boosts your cookie production by +10 cookies per second (cps), allowing you to earn cookies passively.
 
-    Oven: With the Oven upgrade, your cookie production increases by +15 cps. This upgrade will significantly boost your cookie production rate, allowing you to accumulate cookies more quickly.
+- **Oven:** Upgrading to an Oven increases your production by +15 cps, significantly speeding up your cookie accumulation.
 
-    Factory: The Factory upgrade further enhances your cookie production with a boost of +20 cps. This upgrade is more powerful than the Oven and will help you generate cookies at an even faster rate.
+- **Factory:** The Factory upgrade enhances your production by +20 cps, further accelerating your cookie generation.
 
-    Alien: The Alien upgrade is the most potent of all. It provides a massive boost of +40 cps to your cookie production. Purchasing this upgrade will skyrocket your cookie output and bring you closer to becoming a cookie clicker legend!
+- **Alien:** The Alien upgrade is the ultimate boost, providing +40 cps and drastically increasing your cookie production.
 
-![Alt text](assets/images/gameScreenshot.png)
+- **Tesla:** Boosts your cookie production significantly.
+
+- **Rocket:** Launches your cookie production to new heights.
+
+- **Elon:** A special upgrade that plays a unique sound and stops the background music, marking a significant milestone in your cookie empire.
+
+![Alt text](assets\images\info-Frame.png)
+
+### Level Two Upgrades:
+
+As you progress, you'll unlock Level Two, featuring advanced upgrades for even greater cookie production:
+
+- **Battery, Robo Arm, Bot, AI, Solar, Giga, Ciber, Twitter:** Each of these upgrades offers unique boosts to your cookie production, allowing you to scale your cookie empire to new levels.
+
+![Alt text](assets\images\lvlTwo\info-Frame2.png)
+
+### Special Features:
+
+- **Music and Sound Effects:** Enjoy immersive background music and sound effects that enhance your gameplay experience.
+
+- **Reset Feature:** Reset your game to start over with a fresh cookie empire.
+
+![Alt text](assets\images\Screenshot.png)
+
+## Controls
+
+- Press `p` to play.
+- Press `r` to reset your game.
+- Press `n` to go to the next lvl
 
 [Licese](LICENSE)
