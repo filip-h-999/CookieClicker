@@ -2,7 +2,7 @@
 
 Welcome to the enhanced edition of Cookie Clicker! Dive into this simple yet addictive idle clicking game where your goal is to amass a fortune in cookies. Click your way to the top and become the ultimate cookie mogul!
 
-![Alt text](assets\images\titlescreen.png)
+![Alt text](assets/images/titlescreen.png)
 
 Press `p` to play and `r` to reset your Cookie Score.
 
@@ -30,7 +30,7 @@ Press `p` to play and `r` to reset your Cookie Score.
 
 - **Elon:** A special upgrade that plays a unique sound and stops the background music, marking a significant milestone in your cookie empire.
 
-![Alt text](assets\images\info-Frame.png)
+![Alt text](assets/images/info-Frame.png)
 
 ### Level Two Upgrades:
 
@@ -38,7 +38,7 @@ As you progress, you'll unlock Level Two, featuring advanced upgrades for even g
 
 - **Battery, Robo Arm, Bot, AI, Solar, Giga, Ciber, Twitter:** Each of these upgrades offers unique boosts to your cookie production, allowing you to scale your cookie empire to new levels.
 
-![Alt text](assets\images\lvlTwo\info-Frame2.png)
+![Alt text](assets/images/lvlTwo/info-Frame2.png)
 
 ### Special Features:
 
@@ -46,7 +46,7 @@ As you progress, you'll unlock Level Two, featuring advanced upgrades for even g
 
 - **Reset Feature:** Reset your game to start over with a fresh cookie empire.
 
-![Alt text](assets\images\Screenshot.png)
+![Alt text](assets/images/Screenshot.png)
 
 ## Controls
 
