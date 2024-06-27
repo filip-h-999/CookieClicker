@@ -506,7 +506,7 @@ def main():
             pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
             pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
             window.blit(window, (0, 0))
-            stats["playtime"] += playtime.ticks / 10
+            stats["playtime"] += playtime.ticks / 3
             gui.drawBackG()
             playtime.run(stats["playtime"])
 
