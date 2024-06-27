@@ -38,6 +38,7 @@ def main():
         "gigaAmount": 0,
         "ciberAmount": 0,
         "twitterAmount": 0,
+        "mysteryAmount": 0,
         "event": 0,
         "nextLvL": 0,
         "playtime": 0,
@@ -207,6 +208,7 @@ def main():
         stats["gigaAmount"] = 0
         stats["ciberAmount"] = 0
         stats["twitterAmount"] = 0
+        stats["mysteryAmount"] = 0
         stats["event"] = 0
         stats["nextLvL"] = 0
         stats["playtime"] = 0
@@ -284,6 +286,7 @@ def main():
     def onButtonRoboArmClick():
         stats["cookies"] -= 1500
         pygame.time.set_timer(timer_event, 1000)
+        stats["event"] = 1
         stats["Ck_s"] += 15
         stats["roboArmAmount"] += 1
 
@@ -323,6 +326,10 @@ def main():
         stats["Ck_s"] += 15000000
         stats["twitterAmount"] += 1
 
+    def onButtonMysteryClick():
+        # titleScreen.drawMysteryScreen()
+        stats["mysteryAmount"] += 1
+
     def setOpacity(cookie_value):
         if stats["cookies"] >= cookie_value:
             return 255
@@ -341,8 +348,14 @@ def main():
         else:
             whatAmount.drawText(": %d" % stats[statsAmount], x, y)
 
-    def checkIfAllMax():
+    def checkIfAllMaxLvlOne():
         if all(value == 200 for value in [stats["gAmount"], stats["oAmount"], stats["farmAmount"], stats["fAmount"], stats["bAmount"], stats["aAmount"], stats["tAmount"], stats["rAmount"]]):
+            return True
+        else:
+            return False
+        
+    def checkIfAllMaxLvlTwo():
+        if all(value == 200 for value in [stats["batteryAmount"], stats["roboArmAmount"], stats["botAmount"], stats["aiAmount"], stats["solarAmount"], stats["gigaAmount"], stats["ciberAmount"]]):
             return True
         else:
             return False
@@ -382,12 +395,13 @@ def main():
                         json.dump(stats, file)
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_n:
+                if event.key == pygame.K_n and stats["eAmount"] != 0:
                     nextLvlScreen = False
                     savedPlaytime = stats["playtime"]
                     reset()
                     stats["playtime"] += savedPlaytime
                     stats["nextLvL"] += 1
+                    stats["eAmount"] += 1
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
                     musicLvl2()
@@ -397,7 +411,10 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_b:
-                    nextLvlScreen = False
+                    if stats["nextLvL"] == 0:
+                        nextLvlScreen = False
+                    else:
+                        stats["mysteryAmount"] -= 1
                     stats["cookies"] += 1
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
@@ -441,7 +458,7 @@ def main():
                     if stats["cookies"] >= 31000000 and stats["rAmount"] <= 199:
                         r_btn.buttonClick(onButtonRocketClick)
                     
-                    if stats["cookies"] >= 10000000000 and checkIfAllMax():
+                    if stats["cookies"] >= 10000000000 and checkIfAllMaxLvlOne():
                         e_btn.buttonClick(onButtonElonClick)
                         nextLvlScreen = True
                 else:
@@ -469,6 +486,10 @@ def main():
 
                     if stats["cookies"] >= 3000000000:
                         twitter_btn.buttonClick(onButtonTwitterClick)
+
+                    if checkIfAllMaxLvlTwo():
+                        mystery_btn.buttonClick(onButtonMysteryClick)
+                        nextLvlScreen = True
 
                 # if stats["cookies"] >= 9:
                 #     nextLvlScreen = True
@@ -513,7 +534,7 @@ def main():
             opacityA = setOpacity(1250000)
             opacityT = setOpacity(6200000)
             opacityR = setOpacity(31000000)
-            if checkIfAllMax():
+            if checkIfAllMaxLvlOne():
                 opacityE = setOpacity(10000000000)
             else:
                 opacityE = 175
@@ -527,6 +548,8 @@ def main():
             opacityCiber = setOpacity(31000000)
             opacityTwitter = setOpacity(3000000000)
             opacityMystery = 160
+            if checkIfAllMaxLvlTwo():
+                opacityMystery = 255
 
             if stats["nextLvL"] == 0:
                 granny.drawImage(430, 117)
@@ -653,6 +676,12 @@ def main():
 
             if nextLvlScreen and stats["eAmount"] != 0:
                 titleScreen.drawNextLvlScreen()
+                cookie.clickCookie(clickSoundCookie, "off")
+                pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
+                pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
+
+            if stats["mysteryAmount"] == 1:
+                titleScreen.drawMysteryScreen()
                 cookie.clickCookie(clickSoundCookie, "off")
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
