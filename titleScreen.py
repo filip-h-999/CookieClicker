@@ -13,5 +13,9 @@ class Title:
         self.window.blit(pygame.transform.scale(titleScreen, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
 
     def drawNextLvlScreen(self):
-        ucs = pygame.image.load(r"assets\images\nextLvL.png")
+        ucs = pygame.image.load(r"assets\images\lvlTwo\nextLvL.png")
+        self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
+
+    def drawMysteryScreen(self):
+        ucs = pygame.image.load(r"assets\images\lvlTwo\coming-soon.png")
         self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
