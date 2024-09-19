@@ -51,6 +51,7 @@ def main():
     LIGHTBLUE = 0, 255, 255
     BROWN = 139, 69, 19
 
+    start_ticks = pygame.time.get_ticks()
 
     if os.path.exists("statsDic.json"):
         with open("statsDic.json", "r") as file:
@@ -219,7 +220,6 @@ def main():
         stats["cookies"] -= 50
         stats["fingers"] += 1
         # cookie.increaseS = stats["fingers"]
-        stats["fingers"] += 1
 
     def onButtonGrannyClick():
         stats["cookies"] -= 500
@@ -506,8 +506,11 @@ def main():
             pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
             pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
             window.blit(window, (0, 0))
-            stats["playtime"] += playtime.ticks / 3
+            # stats["playtime"] += playtime.ticks / 3
             gui.drawBackG()
+            # Update playtime
+            elapsed_ticks = pygame.time.get_ticks() - start_ticks
+            stats["playtime"] = elapsed_ticks
             playtime.run(stats["playtime"])
 
             if stats["nextLvL"] > 0:
