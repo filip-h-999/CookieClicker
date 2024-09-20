@@ -12,10 +12,11 @@ from playtime import PlaytimeDisplay
 
 
 def main():
-    global started
+    global started, clickedBlocked
     running = True
     ckClicked = False
     nextLvlScreen = False
+    clickedBlocked = False
 
     stats = {
         "Ck_s": 0,
@@ -119,6 +120,8 @@ def main():
 
     clock = pygame.time.Clock()
     timer_event = pygame.USEREVENT + 1
+    eventUserInactive = pygame.USEREVENT + 2
+    eventBlockClick = pygame.USEREVENT + 3
 
     clickSoundCookie = r"assets/sounds/cookieS.mp3"
     clickSoundBattery = r"assets/sounds/batteryS.mp3"
@@ -343,7 +346,9 @@ def main():
         pauseMusic.num_clickedMute += 1
 
     def checkIfMaxAmount(whatAmount, statsAmount, x, y):
-        if stats[statsAmount] == 200:
+        if stats[statsAmount] == 200 and stats["nextLvL"] == 0:
+            whatAmount.drawText("max", x, y)
+        elif stats[statsAmount] == 500 and stats["nextLvL"] != 0:
             whatAmount.drawText("max", x, y)
         else:
             whatAmount.drawText(": %d" % stats[statsAmount], x, y)
@@ -355,7 +360,7 @@ def main():
             return False
         
     def checkIfAllMaxLvlTwo():
-        if all(value == 200 for value in [stats["batteryAmount"], stats["roboArmAmount"], stats["botAmount"], stats["aiAmount"], stats["solarAmount"], stats["gigaAmount"], stats["ciberAmount"]]):
+        if all(value == 500 for value in [stats["batteryAmount"], stats["roboArmAmount"], stats["botAmount"], stats["aiAmount"], stats["solarAmount"], stats["gigaAmount"], stats["ciberAmount"]]):
             return True
         else:
             return False
@@ -419,83 +424,92 @@ def main():
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
 
+                                                    
             if event.type == pygame.MOUSEBUTTONUP:
-                if cookie.is_mouse_on_coockie():
+                if not clickedBlocked and cookie.is_mouse_on_coockie():
                     ckClicked = True
                     stats["cookies"] += stats["fingers"]
                     if stats["nextLvL"] != 0:
                         cookie.clickCookie(clickSoundBattery, "on")
                     else:
                         cookie.clickCookie(clickSoundCookie, "on")
+                    
+                    clickedBlocked = True
+                    pygame.time.set_timer(eventBlockClick, 110)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                ckClicked = False
-                if stats["nextLvL"] == 0:
-                    if stats["cookies"] >= 50 and stats["fingers"] <= 199:
-                        f_btn.buttonClick(onButtonFingerClick)
+                if not clickedBlocked:
+                    ckClicked = False
+                    if stats["nextLvL"] == 0:
+                        if stats["cookies"] >= 50 and stats["fingers"] <= 199:
+                            f_btn.buttonClick(onButtonFingerClick)
 
-                    if stats["cookies"] >= 500 and stats["gAmount"] <= 199:
-                        g_btn.buttonClick(onButtonGrannyClick)
+                        if stats["cookies"] >= 500 and stats["gAmount"] <= 199:
+                            g_btn.buttonClick(onButtonGrannyClick)
 
-                    if stats["cookies"] >= 2000 and stats["oAmount"] <= 199:
-                        o_btn.buttonClick(onButtonOvenClick)
+                        if stats["cookies"] >= 2000 and stats["oAmount"] <= 199:
+                            o_btn.buttonClick(onButtonOvenClick)
 
-                    if stats["cookies"] >= 5000 and stats["farmAmount"] <= 199:
-                        farm_btn.buttonClick(onButtonFarmClick)
+                        if stats["cookies"] >= 5000 and stats["farmAmount"] <= 199:
+                            farm_btn.buttonClick(onButtonFarmClick)
 
-                    if stats["cookies"] >= 30000 and stats["fAmount"] <= 199:
-                        fa_btn.buttonClick(onButtonFactoryClick)
+                        if stats["cookies"] >= 30000 and stats["fAmount"] <= 199:
+                            fa_btn.buttonClick(onButtonFactoryClick)
 
-                    if stats["cookies"] >= 250000 and stats["bAmount"] <= 199:
-                        b_btn.buttonClick(onButtonBankClick)
+                        if stats["cookies"] >= 250000 and stats["bAmount"] <= 199:
+                            b_btn.buttonClick(onButtonBankClick)
 
-                    if stats["cookies"] >= 1250000 and stats["aAmount"] <= 199:
-                        a_btn.buttonClick(onButtonAliensClick)
+                        if stats["cookies"] >= 1250000 and stats["aAmount"] <= 199:
+                            a_btn.buttonClick(onButtonAliensClick)
 
-                    if stats["cookies"] >= 6250000 and stats["tAmount"] <= 199:
-                        t_btn.buttonClick(onButtonTeslaClick)
+                        if stats["cookies"] >= 6250000 and stats["tAmount"] <= 199:
+                            t_btn.buttonClick(onButtonTeslaClick)
 
-                    if stats["cookies"] >= 31000000 and stats["rAmount"] <= 199:
-                        r_btn.buttonClick(onButtonRocketClick)
-                    
-                    if stats["cookies"] >= 10000000000 and checkIfAllMaxLvlOne():
-                        e_btn.buttonClick(onButtonElonClick)
-                        nextLvlScreen = True
-                else:
-                    #* lvl2
-                    if stats["cookies"] >= 150 and stats["batteryAmount"] <= 199:
-                        battery_btn.buttonClick(onButtonBatteryClick)
+                        if stats["cookies"] >= 31000000 and stats["rAmount"] <= 199:
+                            r_btn.buttonClick(onButtonRocketClick)
+                        
+                        if stats["cookies"] >= 10000000000 and checkIfAllMaxLvlOne():
+                            e_btn.buttonClick(onButtonElonClick)
+                            nextLvlScreen = True
+                    else:
+                        #* lvl2
+                        if stats["cookies"] >= 150 and stats["batteryAmount"] <= 499:
+                            battery_btn.buttonClick(onButtonBatteryClick)
 
-                    if stats["cookies"] >= 1500 and stats["roboArmAmount"] <= 199:
-                        roboArm_btn.buttonClick(onButtonRoboArmClick)
+                        if stats["cookies"] >= 1500 and stats["roboArmAmount"] <= 499:
+                            roboArm_btn.buttonClick(onButtonRoboArmClick)
 
-                    if stats["cookies"] >= 6000 and stats["botAmount"] <= 199:
-                        bot_btn.buttonClick(onButtonBotClick)
+                        if stats["cookies"] >= 6000 and stats["botAmount"] <= 499:
+                            bot_btn.buttonClick(onButtonBotClick)
 
-                    if stats["cookies"] >= 15000 and stats["aiAmount"] <= 199:
-                        ai_btn.buttonClick(onButtonAiClick)
+                        if stats["cookies"] >= 15000 and stats["aiAmount"] <= 499:
+                            ai_btn.buttonClick(onButtonAiClick)
 
-                    if stats["cookies"] >= 90000 and stats["solarAmount"] <= 199:
-                        solar_btn.buttonClick(onButtonSolarClick)
+                        if stats["cookies"] >= 90000 and stats["solarAmount"] <= 499:
+                            solar_btn.buttonClick(onButtonSolarClick)
 
-                    if stats["cookies"] >= 750000 and stats["gigaAmount"] <= 199:
-                        giga_btn.buttonClick(onButtonGigaClick)
+                        if stats["cookies"] >= 750000 and stats["gigaAmount"] <= 499:
+                            giga_btn.buttonClick(onButtonGigaClick)
 
-                    if stats["cookies"] >= 31000000 and stats["ciberAmount"] <= 199:
-                        ciber_btn.buttonClick(onButtonCiberClick)
+                        if stats["cookies"] >= 93000000 and stats["ciberAmount"] <= 499:
+                            ciber_btn.buttonClick(onButtonCiberClick)
 
-                    if stats["cookies"] >= 3000000000:
-                        twitter_btn.buttonClick(onButtonTwitterClick)
+                        if stats["cookies"] >= 3000000000:
+                            twitter_btn.buttonClick(onButtonTwitterClick)
 
-                    if checkIfAllMaxLvlTwo():
-                        mystery_btn.buttonClick(onButtonMysteryClick)
-                        nextLvlScreen = True
+                        # if checkIfAllMaxLvlTwo():
+                        #     mystery_btn.buttonClick(onButtonMysteryClick)
+                        #     nextLvlScreen = True
 
-                # if stats["cookies"] >= 9:
-                #     nextLvlScreen = True
+                    # if stats["cookies"] >= 9:
+                    #     nextLvlScreen = True
 
-                infoButton.buttonClick(onInfoClick)
-                pauseMusic.buttonClick(onMuteClick)
+                    infoButton.buttonClick(onInfoClick)
+                    pauseMusic.buttonClick(onMuteClick)
+
+            if event.type == eventBlockClick:
+                clickedBlocked = False
+                pygame.time.set_timer(eventBlockClick, 0)
 
         if not started:
             pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
