@@ -424,6 +424,11 @@ def main():
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
 
+            if event.type == pygame.MOUSEMOTION:
+                pygame.time.set_timer(eventUserInactive, 300000)
+
+            if event.type == eventUserInactive:
+                quit()
                                                     
             if event.type == pygame.MOUSEBUTTONUP:
                 if not clickedBlocked and cookie.is_mouse_on_coockie():
