@@ -3,12 +3,12 @@ from pygame import font
 
 
 class Score:
-    def __init__(self, window, cookieFramePath):
+    def __init__(self, window, cookieFramePath, sizeX, sizeY):
         self.window = window
         # self.black = 0, 0, 0
         self.cookieFrameImage = cookieFramePath
         # cookieFrameImage = pygame.image.load(r"assets/images/cookieCount.png")
-        self.cookieFrame = pygame.transform.scale(cookieFramePath, (300, 100))
+        self.cookieFrame = pygame.transform.scale(cookieFramePath, (sizeX, sizeY))
 
     def drawScore(self, score: int, poss, color):
         self.poss = poss
