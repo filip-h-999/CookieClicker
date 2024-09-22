@@ -2,12 +2,12 @@ import pygame
 from pygame import mixer
 
 
-def cookieSound(clickSound, text):
+def cookieSound(clickSound, text, volume):
     # clickSoundCookie = r"assets/sounds/cookieS.mp3"
     # clickSoundBattery = r"assets/sounds/batteryS.mp3"
     if text == "on":
         mixer.music.load(clickSound)
-        mixer.music.set_volume(0.2)
+        mixer.music.set_volume(volume)
         mixer.music.play()
     else:
         mixer.music.stop()
@@ -43,8 +43,8 @@ class Cookie:
     # def increaseScore(self, n):
     #     self.score += n
 
-    def clickCookie(self, clickSound, text):
-        cookieSound(clickSound, text)
+    def clickCookie(self, clickSound, text, volume):
+        cookieSound(clickSound, text, volume)
         # self.increaseScore(self.increaseS)
 
 
