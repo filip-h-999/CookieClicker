@@ -48,16 +48,19 @@ def main():
     pygame.init()
     window = pygame.display.set_mode((1200, 650))
     pygame.display.set_caption("Cookie Clicker")
+
     GREEN = 0, 255, 0
     LIGHTBLUE = 0, 255, 255
     BROWN = 139, 69, 19
-
-    start_ticks = pygame.time.get_ticks()
+    PINK = 255, 105, 180
 
     if os.path.exists("statsDic.json"):
         with open("statsDic.json", "r") as file:
             stats = json.load(file)
 
+    saved_playtime = stats.get("playtime", 0)
+    start_ticks = pygame.time.get_ticks() - saved_playtime
+    
     def wood(): 
         global cookie, gui, score, titleScreen
         cookie = Cookie(
@@ -69,11 +72,12 @@ def main():
             pygame.image.load(r"assets/images/frame.png"),
             (400, 600),
             pygame.image.load(r"assets/images/shop.png"),
+            (300, 100),
             pygame.image.load(r"assets/images/frame2.png"),
             pygame.image.load(r"assets/images/upgradesFrame.png"),
             (300, 100)
         )
-        score = Score(window, pygame.image.load(r"assets/images/cookieCount.png"))
+        score = Score(window, pygame.image.load(r"assets/images/cookieCount.png"), 300, 100)
 
     def stone():
         global cookie, gui, score, titleScreen
@@ -86,24 +90,51 @@ def main():
             pygame.image.load(r"assets\images\lvlTwo\shop2_stone.png"),
             (320, 530),
             pygame.image.load(r"assets\images\lvlTwo\shop_stone.png"),
+            (300, 100),
             pygame.image.load(r"assets\images\lvlTwo\frame2.png"),
             pygame.image.load(r"assets\images\lvlTwo\upgrade_stone.png"),
-            (300, 75)
+            (315, 90)
         )
-        score = Score(window, pygame.image.load(r"assets\images\lvlTwo\batteryFrame.png"))
+        score = Score(window, pygame.image.load(r"assets\images\lvlTwo\batteryFrame.png"), 300, 100)
 
-    if stats["nextLvL"] != 0:
-        stone()
-        titleScreen = Title(window)
-        playtime = PlaytimeDisplay(window)
-        infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1100, 570, 30, 30))
-        print("stone")
-    else:
+    def lava():
+        global cookie, gui, score, titleScreen
+        cookie = Cookie(
+            window, pygame.image.load(r"assets\images\lvlThree\pig.png"), 270, 310
+        )
+        gui = GUI(
+            window,
+            pygame.image.load(r"assets\images\lvlThree\b3.png"),
+            pygame.image.load(r"assets\images\lvlThree\goldShop.png"),
+            (320, 530),
+            pygame.image.load(r"assets\images\lvlThree\goldShopFrame.png"),
+            (330, 130),
+            pygame.image.load(r"assets\images\lvlThree\frame3.png"),
+            pygame.image.load(r"assets\images\lvlThree\goldUpgradeFrame.png"),
+            (315, 90)
+        )
+        score = Score(window, pygame.image.load(r"assets\images\lvlThree\goldFrame.png"), 250, 75)
+
+    if stats["nextLvL"] == 0:
         wood()
         titleScreen = Title(window)
         playtime = PlaytimeDisplay(window)
         infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
         print("wood")
+
+    if stats["nextLvL"] == 1:
+        stone()
+        titleScreen = Title(window)
+        playtime = PlaytimeDisplay(window)
+        infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1100, 570, 30, 30))
+        print("stone")
+
+    if stats["nextLvL"] >= 2:
+        lava()
+        titleScreen = Title(window)
+        playtime = PlaytimeDisplay(window)
+        infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
+        print("lava")
 
     # opacityF = 200 #! remove if not needed
     # opacityG = 200
@@ -125,6 +156,7 @@ def main():
 
     clickSoundCookie = r"assets/sounds/cookieS.mp3"
     clickSoundBattery = r"assets/sounds/batteryS.mp3"
+    clickSoundPig = r"assets/sounds/pigS.wav"
 
     InfoFrameImage = pygame.image.load(r"assets/images/info-Frame.png")
     infoFrame = pygame.transform.scale(InfoFrameImage, (600, 600))
@@ -183,11 +215,16 @@ def main():
         backgroundMusic = r"assets/sounds/beat2.mp3"
         pygame.mixer.Channel(2).play(pygame.mixer.Sound(backgroundMusic), loops=-1)
         Channel(2).set_volume(0.1)
+
+    def musicLvl3():
+        backgroundMusic = r"assets/sounds/beat3.wav"
+        pygame.mixer.Channel(3).play(pygame.mixer.Sound(backgroundMusic), loops=-1)
+        Channel(3).set_volume(0.3)
     
     def playEmonMa():
         emonMa = r"assets\sounds\elonma.mp3"
-        pygame.mixer.Channel(3).play(pygame.mixer.Sound(emonMa), loops=0)
-        Channel(3).set_volume(0.5)
+        pygame.mixer.Channel(4).play(pygame.mixer.Sound(emonMa), loops=0)
+        Channel(4).set_volume(0.5)
 
     def reset():
         global started, cookie, gui, score
@@ -376,17 +413,20 @@ def main():
             if event.type == timer_event:
                 stats["cookies"] += stats["Ck_s"]
                 if stats["nextLvL"] != 0 and stats["gAmount"] > 0:
-                    cookie.clickCookie(clickSoundBattery, "on")
+                    cookie.clickCookie(clickSoundBattery, "on", 0.2)
                 elif stats["nextLvL"] == 0 and stats["gAmount"] > 0:
-                    cookie.clickCookie(clickSoundCookie, "on")
+                    cookie.clickCookie(clickSoundCookie, "on", 0.2)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
+                    stats["nextLvL"] = 2
                     started = True
                     if stats["nextLvL"] == 0:
                         music()
-                    else:
+                    if stats["nextLvL"] == 1:
                         musicLvl2()
+                    if stats["nextLvL"] >= 2:
+                        musicLvl3()
 
                     if stats["event"] == 1:
                         pygame.time.set_timer(timer_event, 1000)
@@ -418,8 +458,8 @@ def main():
                 if event.key == pygame.K_b:
                     if stats["nextLvL"] == 0:
                         nextLvlScreen = False
-                    else:
-                        stats["mysteryAmount"] -= 1
+                    # else:
+                    #     stats["mysteryAmount"] -= 1
                     stats["cookies"] += 1
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
@@ -431,20 +471,23 @@ def main():
                 quit()
                                                     
             if event.type == pygame.MOUSEBUTTONUP:
-                if not clickedBlocked and cookie.is_mouse_on_coockie():
+                if cookie.is_mouse_on_coockie():
                     ckClicked = True
+                if not clickedBlocked and cookie.is_mouse_on_coockie():
                     stats["cookies"] += stats["fingers"]
-                    if stats["nextLvL"] != 0:
-                        cookie.clickCookie(clickSoundBattery, "on")
-                    else:
-                        cookie.clickCookie(clickSoundCookie, "on")
+                    if stats["nextLvL"] == 0:
+                        cookie.clickCookie(clickSoundCookie, "on", 0.2)
+                    if stats["nextLvL"] == 1:
+                        cookie.clickCookie(clickSoundBattery, "on", 0.2)
+                    if stats["nextLvL"] >= 2:
+                        cookie.clickCookie(clickSoundPig, "on", 0.5)
                     
                     clickedBlocked = True
-                    pygame.time.set_timer(eventBlockClick, 110)
+                    pygame.time.set_timer(eventBlockClick, 100)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                ckClicked = False
                 if not clickedBlocked:
-                    ckClicked = False
                     if stats["nextLvL"] == 0:
                         if stats["cookies"] >= 50 and stats["fingers"] <= 199:
                             f_btn.buttonClick(onButtonFingerClick)
@@ -532,18 +575,27 @@ def main():
             stats["playtime"] = elapsed_ticks
             playtime.run(stats["playtime"])
 
-            if stats["nextLvL"] > 0:
-                gui.drawFrame((843, 100), (442, 10))
+            if stats["nextLvL"] == 0:
+                gui.drawFrame((815, 57), (442, 0), (850, 10))
+                score.drawScore(stats["cookies"], (60, 6), GREEN)
+                if not ckClicked:
+                    cookie.drawCookie((36, 190))
+                else:
+                    cookie.drawBigCookies()
+
+            if stats["nextLvL"] == 1:
+                gui.drawFrame((842, 100), (442, 0), (850, 10))
                 score.drawScore(stats["cookies"], (50, 4), LIGHTBLUE)
                 if not ckClicked:
                     cookie.drawCookie((40, 160))
                 else:
                     cookie.drawBigCookies()
-            else:
-                gui.drawFrame((815, 60), (442, 0))
-                score.drawScore(stats["cookies"], (60, 6), GREEN)
+
+            if stats["nextLvL"] >= 2:
+                gui.drawFrame((842, 100), (442, 0), (830, 0))
+                score.drawScore(stats["cookies"], (65, 15), PINK)
                 if not ckClicked:
-                    cookie.drawCookie((36, 190))
+                    cookie.drawCookie((45, 190))
                 else:
                     cookie.drawBigCookies()
 
@@ -643,7 +695,7 @@ def main():
             elif infoButton.num_clickedInfo % 2 and stats["nextLvL"] != 0:
                 window.blit(infoFrame2, (145, 43))
 
-            channel_id = 1 if stats["nextLvL"] == 0 else 2
+            channel_id = 1 if stats["nextLvL"] == 0 else 2 if stats["nextLvL"] == 1 else 3
             if pauseMusic.num_clickedMute % 2:
                 Channel(channel_id).pause()
             else:
@@ -698,13 +750,13 @@ def main():
 
             if nextLvlScreen and stats["eAmount"] != 0:
                 titleScreen.drawNextLvlScreen()
-                cookie.clickCookie(clickSoundCookie, "off")
+                cookie.clickCookie(clickSoundCookie, "off", 0)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
 
-            if stats["mysteryAmount"] == 1:
-                titleScreen.drawMysteryScreen()
-                cookie.clickCookie(clickSoundCookie, "off")
+            if stats["mysteryAmount"] != 0:
+                titleScreen.drawLvLThreeScreen()
+                cookie.clickCookie(clickSoundCookie, "off", 0)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
                 
