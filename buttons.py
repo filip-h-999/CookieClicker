@@ -8,6 +8,7 @@ class Button:
                  hoverSizeX, hoverSizeY, rect: Rect = None):
         self.num_clickedInfo = 0
         self.num_clickedMute = 0
+        self.num_clickedShop = 0
         # self.cookie = Cookie(window)
         self.window = window
         self.black = 0, 0, 0
