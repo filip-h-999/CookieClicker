@@ -23,3 +23,7 @@ class Title:
     def drawMysteryScreen(self):
         ucs = pygame.image.load(r"assets\images\lvlTwo\coming-soon.png")
         self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
+
+    def drawShopScreen(self):
+        ucs = pygame.image.load(r"assets\buttons\abilities.png")
+        self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
