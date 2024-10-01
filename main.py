@@ -12,11 +12,14 @@ from playtime import PlaytimeDisplay
 
 
 def main():
-    global started, clickedBlocked
+    global started, clickedBlocked, TwoXMoney2min, TwoXMoney5min
     running = True
     ckClicked = False
     nextLvlScreen = False
     clickedBlocked = False
+
+    TwoXMoney2min = False
+    TwoXMoney5min = False
 
     stats = {
         "Ck_s": 0,
@@ -40,6 +43,16 @@ def main():
         "ciberAmount": 0,
         "twitterAmount": 0,
         "mysteryAmount": 0,
+        "mouse": 0,
+        "controller": 0,
+        "playstation": 0,
+        "chair": 0,
+        "pc": 0,
+        "arcade": 0,
+        "gamerGirl": 0,
+        "gamingStore": 0,
+        "nvidea": 0,
+        "brain": 0,
         "event": 0,
         "nextLvL": 0,
         "playtime": 0,
@@ -53,10 +66,14 @@ def main():
     LIGHTBLUE = 0, 255, 255
     BROWN = 139, 69, 19
     PINK = 255, 105, 180
+    LIGHTPURPLE = 255, 0, 255
 
     if os.path.exists("statsDic.json"):
         with open("statsDic.json", "r") as file:
             stats = json.load(file)
+    else:
+        with open("statsDic.json", "w") as file:
+            json.dump(stats, file)
 
     saved_playtime = stats.get("playtime", 0)
     start_ticks = pygame.time.get_ticks() - saved_playtime
@@ -105,21 +122,22 @@ def main():
         gui = GUI(
             window,
             pygame.image.load(r"assets\images\lvlThree\b3.png"),
-            pygame.image.load(r"assets\images\lvlThree\goldShop.png"),
+            pygame.image.load(r"assets\images\lvlThree\goldShop2.png"),
             (320, 530),
             pygame.image.load(r"assets\images\lvlThree\goldShopFrame.png"),
-            (330, 130),
+            (330, 110),
             pygame.image.load(r"assets\images\lvlThree\frame3.png"),
             pygame.image.load(r"assets\images\lvlThree\goldUpgradeFrame.png"),
             (315, 90)
         )
-        score = Score(window, pygame.image.load(r"assets\images\lvlThree\goldFrame.png"), 250, 75)
+        score = Score(window, pygame.image.load(r"assets\images\lvlThree\goldFrame.png"), 250, 95)
 
     if stats["nextLvL"] == 0:
         wood()
         titleScreen = Title(window)
         playtime = PlaytimeDisplay(window)
         infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
+        shopButton = Button(window, r"assets\buttons\shopping-cart.png", 255, 30, 30, 40, 40, pygame.Rect(1100, 570, 30, 30))
         print("wood")
 
     if stats["nextLvL"] == 1:
@@ -127,6 +145,7 @@ def main():
         titleScreen = Title(window)
         playtime = PlaytimeDisplay(window)
         infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1100, 570, 30, 30))
+        shopButton = Button(window, r"assets\buttons\shopping-cart.png", 255, 30, 30, 40, 40, pygame.Rect(1100, 570, 30, 30))
         print("stone")
 
     if stats["nextLvL"] >= 2:
@@ -134,7 +153,11 @@ def main():
         titleScreen = Title(window)
         playtime = PlaytimeDisplay(window)
         infoButton = Button(window, r"assets/buttons/info.png", 255, 30, 30, 40, 40, pygame.Rect(1150, 570, 30, 30))
+        shopButton = Button(window, r"assets\buttons\shopping-cart.png", 255, 30, 30, 40, 40, pygame.Rect(1100, 570, 30, 30))
         print("lava")
+
+    if stats["nextLvL"] == 0 or stats["nextLvL"] == 1 or stats["nextLvL"] >= 2:
+        shopScreen = Title(window)
 
     # opacityF = 200 #! remove if not needed
     # opacityG = 200
@@ -153,6 +176,8 @@ def main():
     timer_event = pygame.USEREVENT + 1
     eventUserInactive = pygame.USEREVENT + 2
     eventBlockClick = pygame.USEREVENT + 3
+    event2xMoney2min = pygame.USEREVENT + 4
+    event2xMoney5min = pygame.USEREVENT + 5
 
     clickSoundCookie = r"assets/sounds/cookieS.mp3"
     clickSoundBattery = r"assets/sounds/batteryS.mp3"
@@ -161,7 +186,7 @@ def main():
     InfoFrameImage = pygame.image.load(r"assets/images/info-Frame.png")
     infoFrame = pygame.transform.scale(InfoFrameImage, (600, 600))
 
-    InfoFrameImage2 = pygame.image.load(r"assets\images\lvlTwo\info-Frame2.png")
+    InfoFrameImage2 = pygame.image.load(r"assets\images\lvlTwo\info-Frame2.0.png")
     infoFrame2 = pygame.transform.scale(InfoFrameImage2, (900, 600))
 
     pauseMusic = Button(window, r"assets/images/mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
@@ -184,6 +209,15 @@ def main():
     ciber = Image(window, r"assets\upgrades\lvl2\ciber.png", 80, 80)
     twitter = Image(window, r"assets\upgrades\lvl2\twitter.png", 55, 55)
 
+    controller = Image(window, r"assets\upgrades\lvl3\controller.png", 65, 65)
+    playstation = Image(window, r"assets\upgrades\lvl3\playstation.png", 60, 60)
+    chair = Image(window, r"assets\upgrades\lvl3\chair.png", 80, 80)
+    pc = Image(window, r"assets\upgrades\lvl3\pc.png", 80, 80)
+    arcade = Image(window, r"assets\upgrades\lvl3\arcade.png", 60, 60)
+    gamerGirl = Image(window, r"assets\upgrades\lvl3\gamerGirl.png", 70, 70)
+    gamingStore = Image(window, r"assets\upgrades\lvl3\game-store.png", 60, 60)
+    nvidea = Image(window, r"assets\upgrades\lvl3\nvidia.png", 80, 80)
+
     grannyAmount = Text(window, 50, GREEN)
     ovenAmount = Text(window, 50, GREEN)
     farmAmount = Text(window, 50, GREEN)
@@ -201,6 +235,15 @@ def main():
     gigaAmount = Text(window, 50, LIGHTBLUE)
     ciberAmount = Text(window, 50, LIGHTBLUE)
     twitterAmount = Text(window, 50, LIGHTBLUE)
+
+    controllerAmount = Text(window, 50, PINK)
+    playstationAmount = Text(window, 50, PINK)
+    chairAmount = Text(window, 50, PINK)
+    pcAmount = Text(window, 50, PINK)
+    arcadeAmount = Text(window, 50, PINK)
+    gamerGirlAmount = Text(window, 50, PINK)
+    gamingStoreAmount = Text(window, 50, PINK)
+    nvideaAmount = Text(window, 50, PINK)
 
     def music():
         backgroundMusic = r"assets/sounds/beat.mp3"
@@ -250,12 +293,45 @@ def main():
         stats["ciberAmount"] = 0
         stats["twitterAmount"] = 0
         stats["mysteryAmount"] = 0
+        stats["mouse"] = 0
+        stats["controller"] = 0
+        stats["playstation"] = 0
+        stats["chair"] = 0
+        stats["pc"] = 0
+        stats["arcade"] = 0
+        stats["gamerGirl"] = 0
+        stats["gamingStore"] = 0
+        stats["nvidea"] = 0
+        stats["brain"] = 0
+        stats["rebirth"] = 0
         stats["event"] = 0
         stats["nextLvL"] = 0
         stats["playtime"] = 0
 
         Channel(2).stop()
 
+        #* abilities
+    def onAbility2xMoneyClick():
+        global TwoXMoney2min
+        stats["cookies"] -= 10000000000
+        TwoXMoney2min = True
+        pygame.time.set_timer(event2xMoney2min, 120000)
+    
+    def onAbiliti5min2xMoneyClick():
+        global TwoXMoney5min
+        stats["rebirth"] -= 1
+        TwoXMoney5min = True
+        pygame.time.set_timer(event2xMoney5min, 300000)
+
+    def onRebirthClick():
+        # +10% more cookie production
+        stats["rebirth"] += 1
+
+    def onAbility50OffClick():
+        stats["rebirth"] -= 2
+        # 50% off all upgrades for 30 seconds
+    
+        #* lvl1
     def onButtonFingerClick():
         stats["cookies"] -= 50
         stats["fingers"] += 1
@@ -370,14 +446,19 @@ def main():
         # titleScreen.drawMysteryScreen()
         stats["mysteryAmount"] += 1
 
-    def setOpacity(cookie_value):
-        if stats["cookies"] >= cookie_value:
+    def setOpacity(cookie_value, rebirth_value):
+        if stats["cookies"] >= cookie_value and stats["rebirth"] >= rebirth_value:
             return 255
+        # elif stats["rebirth"] >= rebirth_value:
+        #     return 255
         else:
             return 175
 
     def onInfoClick():
         infoButton.num_clickedInfo += 1
+
+    def onShopClick():
+        shopButton.num_clickedShop += 1
 
     def onMuteClick():
         pauseMusic.num_clickedMute += 1
@@ -385,7 +466,9 @@ def main():
     def checkIfMaxAmount(whatAmount, statsAmount, x, y):
         if stats[statsAmount] == 200 and stats["nextLvL"] == 0:
             whatAmount.drawText("max", x, y)
-        elif stats[statsAmount] == 500 and stats["nextLvL"] != 0:
+        elif stats[statsAmount] == 500 and stats["nextLvL"] == 1:
+            whatAmount.drawText("max", x, y)
+        elif stats[statsAmount] == 1500 and stats["nextLvL"] >= 2:
             whatAmount.drawText("max", x, y)
         else:
             whatAmount.drawText(": %d" % stats[statsAmount], x, y)
@@ -401,6 +484,12 @@ def main():
             return True
         else:
             return False
+    
+    def checkIfAllMaxLvlThree():
+        if all(value == 1500 for value in [stats["controller"], stats["playstation"], stats["chair"], stats["pc"], stats["arcade"], stats["gamerGirl"], stats["gamingStore"], stats["nvidea"]]):
+            return True
+        else:
+            return False
 
 
     while running:
@@ -411,11 +500,26 @@ def main():
                 running = False
 
             if event.type == timer_event:
-                stats["cookies"] += stats["Ck_s"]
+                if not TwoXMoney2min or not TwoXMoney5min:
+                    stats["cookies"] += stats["Ck_s"]
+                if TwoXMoney2min:
+                    stats["cookies"] += stats["Ck_s"] * 1
+                if TwoXMoney5min:
+                    stats["cookies"] += stats["Ck_s"] * 1
+                if stats["rebirth"] > 0:
+                    multiplier = stats["rebirth"] / 10
+                    stats["Ck_s"] += stats["Ck_s"] * multiplier
+
                 if stats["nextLvL"] != 0 and stats["gAmount"] > 0:
                     cookie.clickCookie(clickSoundBattery, "on", 0.2)
                 elif stats["nextLvL"] == 0 and stats["gAmount"] > 0:
                     cookie.clickCookie(clickSoundCookie, "on", 0.2)
+
+            if event.type == event2xMoney2min:
+                TwoXMoney2min = False
+
+            if event.type == event2xMoney5min:
+                TwoXMoney5min = False
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
@@ -438,6 +542,8 @@ def main():
                     wood()
                     with open("statsDic.json", "w") as file:
                         json.dump(stats, file)
+                    saved_playtime = stats.get("playtime", 0)
+                    start_ticks = pygame.time.get_ticks() - saved_playtime
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_n and stats["eAmount"] != 0:
@@ -488,6 +594,15 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 ckClicked = False
                 if not clickedBlocked:
+                        #* abilities
+                    if stats["cookies"] >= 10000000000:
+                        abiliti2xMoney_btn.buttonClick(onAbility2xMoneyClick)
+                    if stats["rebirth"] >= 1:
+                        abiliti5min2xMoney_btn.buttonClick(onAbiliti5min2xMoneyClick)
+                    if checkIfAllMaxLvlThree():
+                        abilitiRebirth_btn.buttonClick(onRebirthClick)
+
+                        #* lvl1
                     if stats["nextLvL"] == 0:
                         if stats["cookies"] >= 50 and stats["fingers"] <= 199:
                             f_btn.buttonClick(onButtonFingerClick)
@@ -554,6 +669,7 @@ def main():
 
                     infoButton.buttonClick(onInfoClick)
                     pauseMusic.buttonClick(onMuteClick)
+                    shopButton.buttonClick(onShopClick)
 
             if event.type == eventBlockClick:
                 clickedBlocked = False
@@ -592,39 +708,47 @@ def main():
                     cookie.drawBigCookies()
 
             if stats["nextLvL"] >= 2:
-                gui.drawFrame((842, 100), (442, 0), (830, 0))
-                score.drawScore(stats["cookies"], (65, 15), PINK)
+                gui.drawFrame((842, 100), (442, 8), (830, 0))
+                score.drawScore(stats["cookies"], (60, 10), PINK)
                 if not ckClicked:
                     cookie.drawCookie((45, 190))
                 else:
                     cookie.drawBigCookies()
 
-            opacityF = setOpacity(50)
-            opacityG = setOpacity(500)
-            opacityO = setOpacity(2000)
-            opacityFarm = setOpacity(5000)
-            opacityFa = setOpacity(30000)
-            opacityB = setOpacity(250000)
-            opacityA = setOpacity(1250000)
-            opacityT = setOpacity(6200000)
-            opacityR = setOpacity(31000000)
+            #* abilities
+            opacity2xMoney = setOpacity(10000000000, 0)
+            opacity5min2xMoney = setOpacity(0, 1)
+            opacityRebirth = setOpacity(0, int(checkIfAllMaxLvlThree()))
+            opacity50Off = setOpacity(0, 2)
+
+            #* lvl1
+            opacityF = setOpacity(50, 0)
+            opacityG = setOpacity(500, 0)
+            opacityO = setOpacity(2000, 0)
+            opacityFarm = setOpacity(5000, 0)
+            opacityFa = setOpacity(30000, 0)
+            opacityB = setOpacity(250000, 0)
+            opacityA = setOpacity(1250000, 0)
+            opacityT = setOpacity(6200000, 0)
+            opacityR = setOpacity(31000000, 0)
             if checkIfAllMaxLvlOne():
-                opacityE = setOpacity(10000000000)
+                opacityE = setOpacity(10000000000, 0)
             else:
                 opacityE = 175
 
-            opacityBattery = setOpacity(150)
-            opacityRoboArm = setOpacity(1500)
-            opacityBot = setOpacity(6000)
-            opacityAi = setOpacity(15000)
-            opacitySolar = setOpacity(90000)
-            opacityGiga = setOpacity(750000)
-            opacityCiber = setOpacity(31000000)
-            opacityTwitter = setOpacity(3000000000)
+            #* lvl2
+            opacityBattery = setOpacity(150, 0)
+            opacityRoboArm = setOpacity(1500, 0)
+            opacityBot = setOpacity(6000, 0)
+            opacityAi = setOpacity(15000, 0)
+            opacitySolar = setOpacity(90000, 0)
+            opacityGiga = setOpacity(750000, 0)
+            opacityCiber = setOpacity(31000000, 0)
+            opacityTwitter = setOpacity(3000000000, 0)
             opacityMystery = 160
             if checkIfAllMaxLvlTwo():
                 opacityMystery = 255
-
+            
             if stats["nextLvL"] == 0:
                 granny.drawImage(430, 117)
                 checkIfMaxAmount(grannyAmount, "gAmount", 520, 140)
@@ -657,38 +781,54 @@ def main():
                 rocket.drawImage(600, 515)
                 checkIfMaxAmount(rocketAmount, "rAmount", 680, 530)
                 # rocketAmount.drawText(": %d" % stats["rAmount"], 680, 530)
-            else:
+            if stats["nextLvL"] == 1:
                 battey.drawImage(440, 127)
                 checkIfMaxAmount(batteryAmount, "batteryAmount", 520, 140)
-                # batteryAmount.drawText(": %d" % stats["batteryAmount"], 520, 140)
 
                 roboArm.drawImage(600, 117)
                 checkIfMaxAmount(roboArmAmount, "roboArmAmount", 680, 140)
-                # roboArmAmount.drawText(": %d" % stats["roboArmAmount"], 680, 140)
 
                 bot.drawImage(425, 250)
                 checkIfMaxAmount(botAmount, "botAmount", 520, 270)
-                # botAmount.drawText(": %d" % stats["botAmount"], 520, 270)
 
                 ai.drawImage(600, 245)
                 checkIfMaxAmount(aiAmount, "aiAmount", 680, 270)
-                # aiAmount.drawText(": %d" % stats["aiAmount"], 680, 270)
 
                 solar.drawImage(435, 385)
                 checkIfMaxAmount(solarAmount, "solarAmount", 520, 400)
-                # solarAmount.drawText(": %d" % stats["solarAmount"], 520, 400)
 
                 giga.drawImage(600, 375)
                 checkIfMaxAmount(gigaAmount, "gigaAmount", 680, 400)
-                # gigaAmount.drawText(": %d" % stats["gigaAmount"], 680, 400)
 
                 ciber.drawImage(430, 505)
                 checkIfMaxAmount(ciberAmount, "ciberAmount", 520, 530)
-                # ciberAmount.drawText(": %d" % stats["ciberAmount"], 520, 530)
 
                 twitter.drawImage(600, 520)
                 checkIfMaxAmount(twitterAmount, "twitterAmount", 680, 530)
-                # twitterAmount.drawText(": %d" % stats["twitterAmount"], 680, 530)
+            if stats["nextLvL"] >= 2:
+                controller.drawImage(440, 118)
+                checkIfMaxAmount(controllerAmount, "controller", 520, 140)
+
+                playstation.drawImage(600, 127)
+                checkIfMaxAmount(playstationAmount, "playstation", 680, 140)
+
+                chair.drawImage(435, 250)
+                checkIfMaxAmount(chairAmount, "chair", 520, 270)
+
+                pc.drawImage(590, 245)
+                checkIfMaxAmount(pcAmount, "pc", 680, 270)
+
+                arcade.drawImage(435, 385)
+                checkIfMaxAmount(arcadeAmount, "arcade", 520, 400)
+
+                gamerGirl.drawImage(600, 385)
+                checkIfMaxAmount(gamerGirlAmount, "gamerGirl", 680, 400)
+
+                gamingStore.drawImage(435, 520)
+                checkIfMaxAmount(gamingStoreAmount, "gamingStore", 520, 530)
+
+                nvidea.drawImage(600, 510)
+                checkIfMaxAmount(nvideaAmount, "nvidea", 680, 530)
 
             if infoButton.num_clickedInfo % 2 and stats["nextLvL"] == 0:
                 window.blit(infoFrame, (270, 0))
@@ -701,6 +841,11 @@ def main():
             else:
                 Channel(channel_id).unpause()
 
+
+            abiliti2xMoney_btn = Button(window, r"assets\buttons\bba1.png", opacity2xMoney, 125, 70, 140, 80, pygame.Rect(945, 440, 140, 70))
+            abiliti5min2xMoney_btn = Button(window, r"assets\buttons\bba3.png", opacity5min2xMoney, 125, 70, 140, 80, pygame.Rect(695, 440, 140, 70))
+            abiliti50off_btn = Button(window, r"assets\buttons\bba2.png", opacity50Off, 125, 70, 140, 80, pygame.Rect(105, 440, 140, 70))
+            abilitiRebirth_btn = Button(window, r"assets\buttons\bba4.png", opacityRebirth, 125, 70, 140, 80, pygame.Rect(380, 440, 140, 70))
 
             f_btn = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 125, 70, 140, 80, pygame.Rect(870, 145, 140, 70))
             g_btn = Button(window, r"assets/buttons/Granny-buttons.png", opacityG, 125, 70, 140, 80, pygame.Rect(1005, 145, 140, 70))
@@ -723,7 +868,14 @@ def main():
             twitter_btn = Button(window, r"assets\buttons\lvl2\buttonsTwitter.png", opacityTwitter, 125, 70, 140, 80, pygame.Rect(1002, 420, 140, 70))
             mystery_btn = Button(window, r"assets\buttons\lvl2\buttonsMystery.png", opacityMystery, 125*2.2, 100, 140*2.1, 110, pygame.Rect(935, 505, 140, 70))
 
-            if stats["nextLvL"] == 0:
+            if shopButton.num_clickedShop % 2:
+                shopScreen.drawShopScreen()
+                abiliti2xMoney_btn.drawButton()
+                abiliti5min2xMoney_btn.drawButton()
+                abiliti50off_btn.drawButton()
+                abilitiRebirth_btn.drawButton()
+
+            if stats["nextLvL"] == 0 and shopButton.num_clickedShop % 2 != 1:
                 f_btn.drawButton()
                 g_btn.drawButton()
                 o_btn.drawButton()
@@ -734,7 +886,7 @@ def main():
                 t_btn.drawButton()
                 r_btn.drawButton()
                 e_btn.drawButton()
-            else:
+            if stats["nextLvL"] == 1 and shopButton.num_clickedShop % 2 != 1:
                 battery_btn.drawButton()
                 roboArm_btn.drawButton()
                 bot_btn.drawButton()
@@ -746,6 +898,7 @@ def main():
                 mystery_btn.drawButton()
 
             infoButton.drawButton()
+            shopButton.drawButton()
             pauseMusic.drawButton()
 
             if nextLvlScreen and stats["eAmount"] != 0:
