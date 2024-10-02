@@ -9,7 +9,7 @@ class Title:
         self.WINDOW_HEIGHT = 650
 
     def drawScreen(self):
-        titleScreen = pygame.image.load(r"assets\images\titlescreen.png")
+        titleScreen = pygame.image.load(r"assets\images\screens\titlescreen.png")
         self.window.blit(pygame.transform.scale(titleScreen, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
 
     def drawNextLvlScreen(self):
@@ -25,5 +25,5 @@ class Title:
         self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
 
     def drawShopScreen(self):
-        ucs = pygame.image.load(r"assets\buttons\abilities.png")
+        ucs = pygame.image.load(r"assets\images\screens\abilities.png")
         self.window.blit(pygame.transform.scale(ucs, (self.WINDOW_WIDTH, self.WINDOW_HEIGHT)), (0, 0))
