@@ -2,7 +2,7 @@
 
 Welcome to the enhanced edition of Cookie Clicker! Dive into this simple yet addictive idle clicking game where your goal is to amass a fortune in cookies. Click your way to the top and become the ultimate cookie mogul!
 
-![Alt text](assets\images\screens\titlescreen.png)
+![Alt text](assets/images/screens/titlescreen.png)
 
 Press `p` to play and `r` to reset your Cookie Score.
 
@@ -46,7 +46,7 @@ As you progress, you'll unlock Level Two, featuring advanced upgrades for even g
 
 - **Reset Feature:** Reset your game to start over with a fresh cookie empire.
 
-![Alt text](assets\images\screens\Screenshot.png)
+![Alt text](assets/images/screens/Screenshot.png)
 
 ## Controls
 
