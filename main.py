@@ -12,7 +12,7 @@ from playtime import PlaytimeDisplay
 
 
 def main():
-    global started, clickedBlocked, TwoXMoney2min, TwoXMoney5min
+    global started, clickedBlocked, TwoXMoney2min, TwoXMoney5min, abiliti2xMoneyIcon, FiftyOff
     running = True
     ckClicked = False
     nextLvlScreen = False
@@ -20,6 +20,7 @@ def main():
 
     TwoXMoney2min = False
     TwoXMoney5min = False
+    FiftyOff = False
 
     stats = {
         "Ck_s": 0,
@@ -159,17 +160,6 @@ def main():
     if stats["nextLvL"] == 0 or stats["nextLvL"] == 1 or stats["nextLvL"] >= 2:
         shopScreen = Title(window)
 
-    # opacityF = 200 #! remove if not needed
-    # opacityG = 200
-    # opacityO = 200
-    # opacityFarm = 200
-    # opacityFa = 200
-    # opacityB = 200
-    # opacityA = 200
-    # opacityT = 200
-    # opacityR = 200
-    # opacityE = 200
-
     started = False
 
     clock = pygame.time.Clock()
@@ -190,6 +180,11 @@ def main():
     infoFrame2 = pygame.transform.scale(InfoFrameImage2, (900, 600))
 
     pauseMusic = Button(window, r"assets/images/mute.png", 255, 30, 30, 40, 40, pygame.Rect(10, 600, 30, 30))
+
+    abiliti2xMoneyIcon = Image(window, r"assets\buttons\abilities\twoXMoney.png", 60, 60)
+    abiliti5min2xMoneyIcon = Image(window, r"assets\buttons\abilities\TwoxMoneyTwo.png", 60, 60)
+    abiliti50offIcon = Image(window, r"assets\buttons\abilities\fiftyoff.png", 60, 60)
+    redLine = Image(window, r"assets\images\redLine.png", 80, 100)
 
     granny = Image(window, r"assets/upgrades/granny.png", 80, 80)
     oven = Image(window, r"assets/upgrades/oven.png", 80, 80)
@@ -328,131 +323,133 @@ def main():
         stats["rebirth"] += 1
 
     def onAbility50OffClick():
-        stats["rebirth"] -= 2
+        global FiftyOff
+        # stats["rebirth"] -= 2
+        FiftyOff = True
         # 50% off all upgrades for 30 seconds
     
         #* lvl1
     def onButtonFingerClick():
-        stats["cookies"] -= 50
+        stats["cookies"] -= 25 if FiftyOff else 50
         stats["fingers"] += 1
         # cookie.increaseS = stats["fingers"]
 
     def onButtonGrannyClick():
-        stats["cookies"] -= 500
+        stats["cookies"] -= 250 if FiftyOff else 500
         pygame.time.set_timer(timer_event, 1000)
         stats["gAmount"] += 1
         stats["Ck_s"] += 5
         stats["event"] = 1
 
     def onButtonOvenClick():
-        stats["cookies"] -= 2000
+        stats["cookies"] -= 1000 if FiftyOff else 2000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 20
         stats["oAmount"] += 1
 
     def onButtonFarmClick():
-        stats["cookies"] -= 5000
+        stats["cookies"] -= 2500 if FiftyOff else 5000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 50
         stats["farmAmount"] += 1
 
     def onButtonFactoryClick():
-        stats["cookies"] -= 30000
+        stats["cookies"] -= 15000 if FiftyOff else 30000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 300
         stats["fAmount"] += 1
 
     def onButtonBankClick():
-        stats["cookies"] -= 250000
+        stats["cookies"] -= 125000 if FiftyOff else 250000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 3000
         stats["bAmount"] += 1
 
     def onButtonAliensClick():
-        stats["cookies"] -= 1250000
+        stats["cookies"] -= 625000 if FiftyOff else 1250000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 5000
         stats["aAmount"] += 1
 
     def onButtonTeslaClick():
-        stats["cookies"] -= 6250000
+        stats["cookies"] -= 3125000 if FiftyOff else 6250000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 30000
         stats["tAmount"] += 1
 
     def onButtonRocketClick():
-        stats["cookies"] -= 31000000
+        stats["cookies"] -= 15500000 if FiftyOff else 31000000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 150000
         stats["rAmount"] += 1
 
     def onButtonElonClick():
-        stats["cookies"] -= 10000000000
+        stats["cookies"] -= 5000000000 if FiftyOff else 10000000000
         stats["eAmount"] += 1
         playEmonMa()
         Channel(1).stop()
 
         #* lvl2
     def onButtonBatteryClick():
-        stats["cookies"] -= 150
+        stats["cookies"] -= 75 if FiftyOff else 150
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 3
         stats["batteryAmount"] += 1
 
     def onButtonRoboArmClick():
-        stats["cookies"] -= 1500
+        stats["cookies"] -= 750 if FiftyOff else 1500
         pygame.time.set_timer(timer_event, 1000)
         stats["event"] = 1
         stats["Ck_s"] += 15
         stats["roboArmAmount"] += 1
 
     def onButtonBotClick():
-        stats["cookies"] -= 6000
+        stats["cookies"] -= 3000 if FiftyOff else 6000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 60
         stats["botAmount"] += 1
 
     def onButtonAiClick():
-        stats["cookies"] -= 15000
+        stats["cookies"] -= 7500 if FiftyOff else 15000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 150
         stats["aiAmount"] += 1
 
     def onButtonSolarClick():
-        stats["cookies"] -= 90000
+        stats["cookies"] -= 45000 if FiftyOff else 90000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 900
         stats["solarAmount"] += 1
 
     def onButtonGigaClick():
-        stats["cookies"] -= 750000
+        stats["cookies"] -= 375000 if FiftyOff else 750000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 9000
         stats["gigaAmount"] += 1
 
     def onButtonCiberClick():
-        stats["cookies"] -= 31000000
+        stats["cookies"] -= 46500000 if FiftyOff else 93000000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 180000
         stats["ciberAmount"] += 1
 
     def onButtonTwitterClick():
-        stats["cookies"] -= 3000000000
+        stats["cookies"] -= 1500000000 if FiftyOff else 3000000000
         pygame.time.set_timer(timer_event, 1000)
         stats["Ck_s"] += 15000000
         stats["twitterAmount"] += 1
 
     def onButtonMysteryClick():
         # titleScreen.drawMysteryScreen()
-        stats["mysteryAmount"] += 1
+        # stats["mysteryAmount"] += 1
+        pass
 
     def setOpacity(cookie_value, rebirth_value):
-        if stats["cookies"] >= cookie_value and stats["rebirth"] >= rebirth_value:
-            return 255
-        # elif stats["rebirth"] >= rebirth_value:
-        #     return 255
-        else:
-            return 175
+        required_cookies = cookie_value / 2 if FiftyOff else cookie_value
+        return 255 if stats["cookies"] >= required_cookies and stats["rebirth"] >= rebirth_value else 175
+    
+    def allowBuy(cookie_value):
+        return cookie_value / 2 if FiftyOff else cookie_value
 
     def onInfoClick():
         infoButton.num_clickedInfo += 1
@@ -599,65 +596,67 @@ def main():
                         abiliti2xMoney_btn.buttonClick(onAbility2xMoneyClick)
                     if stats["rebirth"] >= 1:
                         abiliti5min2xMoney_btn.buttonClick(onAbiliti5min2xMoneyClick)
+                    if stats["cookies"] >= 1:
+                        abiliti50off_btn.buttonClick(onAbility50OffClick)
                     if checkIfAllMaxLvlThree():
                         abilitiRebirth_btn.buttonClick(onRebirthClick)
 
                         #* lvl1
                     if stats["nextLvL"] == 0:
-                        if stats["cookies"] >= 50 and stats["fingers"] <= 199:
+                        if stats["cookies"] >= allowBuy(50) and stats["fingers"] <= 199:
                             f_btn.buttonClick(onButtonFingerClick)
 
-                        if stats["cookies"] >= 500 and stats["gAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(500) and stats["gAmount"] <= 199:
                             g_btn.buttonClick(onButtonGrannyClick)
 
-                        if stats["cookies"] >= 2000 and stats["oAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(2000) and stats["oAmount"] <= 199:
                             o_btn.buttonClick(onButtonOvenClick)
 
-                        if stats["cookies"] >= 5000 and stats["farmAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(5000) and stats["farmAmount"] <= 199:
                             farm_btn.buttonClick(onButtonFarmClick)
 
-                        if stats["cookies"] >= 30000 and stats["fAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(30000) and stats["fAmount"] <= 199:
                             fa_btn.buttonClick(onButtonFactoryClick)
 
-                        if stats["cookies"] >= 250000 and stats["bAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(250000) and stats["bAmount"] <= 199:
                             b_btn.buttonClick(onButtonBankClick)
 
-                        if stats["cookies"] >= 1250000 and stats["aAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(1250000) and stats["aAmount"] <= 199:
                             a_btn.buttonClick(onButtonAliensClick)
 
-                        if stats["cookies"] >= 6250000 and stats["tAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(6250000) and stats["tAmount"] <= 199:
                             t_btn.buttonClick(onButtonTeslaClick)
 
-                        if stats["cookies"] >= 31000000 and stats["rAmount"] <= 199:
+                        if stats["cookies"] >= allowBuy(31000000) and stats["rAmount"] <= 199:
                             r_btn.buttonClick(onButtonRocketClick)
                         
-                        if stats["cookies"] >= 10000000000 and checkIfAllMaxLvlOne():
+                        if stats["cookies"] >= allowBuy(10000000000) and checkIfAllMaxLvlOne():
                             e_btn.buttonClick(onButtonElonClick)
                             nextLvlScreen = True
                     else:
                         #* lvl2
-                        if stats["cookies"] >= 150 and stats["batteryAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(150) and stats["batteryAmount"] <= 499:
                             battery_btn.buttonClick(onButtonBatteryClick)
 
-                        if stats["cookies"] >= 1500 and stats["roboArmAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(1500) and stats["roboArmAmount"] <= 499:
                             roboArm_btn.buttonClick(onButtonRoboArmClick)
 
-                        if stats["cookies"] >= 6000 and stats["botAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(6000) and stats["botAmount"] <= 499:
                             bot_btn.buttonClick(onButtonBotClick)
 
-                        if stats["cookies"] >= 15000 and stats["aiAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(15000) and stats["aiAmount"] <= 499:
                             ai_btn.buttonClick(onButtonAiClick)
 
-                        if stats["cookies"] >= 90000 and stats["solarAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(90000) and stats["solarAmount"] <= 499:
                             solar_btn.buttonClick(onButtonSolarClick)
 
-                        if stats["cookies"] >= 750000 and stats["gigaAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(750000) and stats["gigaAmount"] <= 499:
                             giga_btn.buttonClick(onButtonGigaClick)
 
-                        if stats["cookies"] >= 93000000 and stats["ciberAmount"] <= 499:
+                        if stats["cookies"] >= allowBuy(93000000) and stats["ciberAmount"] <= 499:
                             ciber_btn.buttonClick(onButtonCiberClick)
 
-                        if stats["cookies"] >= 3000000000:
+                        if stats["cookies"] >= allowBuy(3000000000):
                             twitter_btn.buttonClick(onButtonTwitterClick)
 
                         # if checkIfAllMaxLvlTwo():
@@ -842,10 +841,10 @@ def main():
                 Channel(channel_id).unpause()
 
 
-            abiliti2xMoney_btn = Button(window, r"assets\buttons\bba1.png", opacity2xMoney, 125, 70, 140, 80, pygame.Rect(945, 440, 140, 70))
-            abiliti5min2xMoney_btn = Button(window, r"assets\buttons\bba3.png", opacity5min2xMoney, 125, 70, 140, 80, pygame.Rect(695, 440, 140, 70))
-            abiliti50off_btn = Button(window, r"assets\buttons\bba2.png", opacity50Off, 125, 70, 140, 80, pygame.Rect(105, 440, 140, 70))
-            abilitiRebirth_btn = Button(window, r"assets\buttons\bba4.png", opacityRebirth, 125, 70, 140, 80, pygame.Rect(380, 440, 140, 70))
+            abiliti2xMoney_btn = Button(window, r"assets\buttons\abilities\bba1.png", opacity2xMoney, 125, 70, 140, 80, pygame.Rect(945, 440, 140, 70))
+            abiliti5min2xMoney_btn = Button(window, r"assets\buttons\abilities\bba3.png", opacity5min2xMoney, 125, 70, 140, 80, pygame.Rect(695, 440, 140, 70))
+            abiliti50off_btn = Button(window, r"assets\buttons\abilities\bba2.png", opacity50Off, 125, 70, 140, 80, pygame.Rect(105, 440, 140, 70))
+            abilitiRebirth_btn = Button(window, r"assets\buttons\abilities\bba4.png", opacityRebirth, 125, 70, 140, 80, pygame.Rect(380, 440, 140, 70))
 
             f_btn = Button(window, r"assets/buttons/Finger-buttons.png", opacityF, 125, 70, 140, 80, pygame.Rect(870, 145, 140, 70))
             g_btn = Button(window, r"assets/buttons/Granny-buttons.png", opacityG, 125, 70, 140, 80, pygame.Rect(1005, 145, 140, 70))
@@ -886,6 +885,7 @@ def main():
                 t_btn.drawButton()
                 r_btn.drawButton()
                 e_btn.drawButton()
+
             if stats["nextLvL"] == 1 and shopButton.num_clickedShop % 2 != 1:
                 battery_btn.drawButton()
                 roboArm_btn.drawButton()
@@ -913,6 +913,26 @@ def main():
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
                 
+        if TwoXMoney2min and shopButton.num_clickedShop % 2 != 1:
+            abiliti2xMoneyIcon.drawImage(5, 20)
+
+        if TwoXMoney5min and shopButton.num_clickedShop % 2 != 1:
+            abiliti5min2xMoneyIcon.drawImage(5, 90)
+
+        if FiftyOff and shopButton.num_clickedShop % 2 != 1:
+            abiliti50offIcon.drawImage(5, 160)
+            #*left side
+            redLine.drawImage(915, 140)
+            redLine.drawImage(915, 225)
+            redLine.drawImage(915, 310)
+            redLine.drawImage(915, 395)
+            redLine.drawImage(915, 480)
+            #*right side
+            redLine.drawImage(1050, 140)
+            redLine.drawImage(1050, 225)
+            redLine.drawImage(1050, 310)
+            redLine.drawImage(1050, 395)
+            redLine.drawImage(1050, 480)
 
         pygame.display.update()
         clock.tick(60)
