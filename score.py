@@ -15,7 +15,9 @@ class Score:
         self.window.blit(self.cookieFrame, (poss))
         font1 = font.SysFont('didot.ttc', 50)
         
-        if score >= 1000000000:
+        if score >= 1000000000000:
+            display_score = "{:.1f}tril".format(score / 1000000000000)
+        elif score >= 1000000000:
             display_score = "{:.1f}bio".format(score / 1000000000)
         elif score >= 1000000:
             display_score = "{:.1f}mio".format(score / 1000000)
