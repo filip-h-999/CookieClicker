@@ -18,14 +18,20 @@ class Button:
         self.normalSize = pygame.transform.scale(img, (sizeX, sizeY))
         self.hoverSize = pygame.transform.scale(img, (hoverSizeX, hoverSizeY))
         self.rect = rect
+        self.buttonSound = pygame.mixer.Sound("assets/sounds/buttonSound.wav")
 
-    def buttonClick(self, onButtonClick):
+    def buttonClick(self, onButtonClick, musicOnOff):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         on_button = self.rect.collidepoint(mouse)
 
         if on_button and click[0] == 1:
             onButtonClick()
+            if musicOnOff == 1:
+                pygame.mixer.Channel(6).play(pygame.mixer.Sound(self.buttonSound))
+                pygame.mixer.Channel(6).set_volume(0.5)
+            elif musicOnOff == 0:
+                pygame.mixer.Channel(6).set_volume(0)
 
     def drawButton(self):
         mouse = pygame.mouse.get_pos()
