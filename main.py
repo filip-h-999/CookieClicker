@@ -12,10 +12,11 @@ from playtime import PlaytimeDisplay
 
 
 def main():
-    global started, clickedBlocked, TwoXMoney2min, TwoXMoney5min, abiliti2xMoneyIcon, FiftyOff, shop_window_open
+    global started, clickedBlocked, TwoXMoney2min, TwoXMoney5min, abiliti2xMoneyIcon, FiftyOff, shop_window_open, levelTreeScreen, nextLvlScreen
     running = True
     ckClicked = False
     nextLvlScreen = False
+    levelTreeScreen = False
     clickedBlocked = False
 
     shop_window_open = False
@@ -271,8 +272,8 @@ def main():
     
     def playGamingSound():
         gaming = r"assets\sounds\gaming.wav"
-        pygame.mixer.Channel(2).play(pygame.mixer.Sound(gaming), loops=0)
-        Channel(2).set_volume(0.3)
+        pygame.mixer.Channel(5).play(pygame.mixer.Sound(gaming), loops=0)
+        Channel(5).set_volume(0.5)
 
     def reset():
         global started, cookie, gui, score
@@ -299,17 +300,17 @@ def main():
         stats["twitterAmount"] = 0
         stats["gaming"] = 0
         stats["mysteryAmount"] = 0
-        stats["mouse"] = 0
-        stats["controller"] = 0
-        stats["playstation"] = 0
-        stats["chair"] = 0
-        stats["pc"] = 0
-        stats["arcade"] = 0
-        stats["gamerGirl"] = 0
-        stats["gamingStore"] = 0
-        stats["nvidea"] = 0
-        stats["brain"] = 0
-        stats["rebirth"] = 0
+        stats["mouseAmount"] = 0
+        stats["controllerAmount"] = 0
+        stats["playstationAmount"] = 0
+        stats["chairAmount"] = 0
+        stats["pcAmount"] = 0
+        stats["arcadeAmount"] = 0
+        stats["gamerGirlAmount"] = 0
+        stats["gamingStoreAmount"] = 0
+        stats["nvideaAmount"] = 0
+        stats["brainAmount"] = 0
+        stats["rebirthAmount"] = 0
         stats["event"] = 0
         stats["nextLvL"] = 0
         stats["playtime"] = 0
@@ -325,13 +326,13 @@ def main():
     
     def onAbiliti5min2xMoneyClick():
         global TwoXMoney5min
-        stats["rebirth"] -= 1
+        stats["rebirthAmount"] -= 1
         TwoXMoney5min = True
         pygame.time.set_timer(event2xMoney5min, 300000)
 
     def onRebirthClick():
         # +10% more cookie production
-        stats["rebirth"] += 1
+        stats["rebirthAmount"] += 1
 
     def onAbility50OffClick():
         global FiftyOff
@@ -395,6 +396,8 @@ def main():
         stats["rAmount"] += 1
 
     def onButtonElonClick():
+        global nextLvlScreen
+        nextLvlScreen = True
         stats["cookies"] -= 5000000000 if FiftyOff else 10000000000
         stats["eAmount"] += 1
         Channel(1).stop()
@@ -403,8 +406,7 @@ def main():
         #* lvl2
     def onButtonBatteryClick():
         stats["cookies"] -= 75 if FiftyOff else 150
-        pygame.time.set_timer(timer_event, 1000)
-        stats["Ck_s"] += 3
+        stats["fingers"] += 3
         stats["batteryAmount"] += 1
 
     def onButtonRoboArmClick():
@@ -451,8 +453,11 @@ def main():
         stats["twitterAmount"] += 1
 
     def onButtonGamingClick():
+        global levelTreeScreen
+        levelTreeScreen = True
         stats["cookies"] -= 450000000000 if FiftyOff else 900000000000
         stats["gaming"] += 1
+        stats["eAmount"] += 1
         playGamingSound()
         Channel(2).stop()
 
@@ -463,8 +468,8 @@ def main():
 
         #* lvl3
     def onButtonMouseClick():
-        stats["cookies"] += 450 if FiftyOff else 900
-        stats["Ck_s"] += 11
+        stats["cookies"] -= 450 if FiftyOff else 900
+        stats["fingers"] += 8
 
     def onButtonControllerClick():
         stats["cookies"] -= 5250 if FiftyOff else 10500
@@ -520,7 +525,7 @@ def main():
 
     def setOpacity(cookie_value, rebirth_value, opacityValue):
         required_cookies = cookie_value / 2 if FiftyOff else cookie_value
-        return 255 if stats["cookies"] >= required_cookies and stats["rebirth"] >= rebirth_value else opacityValue
+        return 255 if stats["cookies"] >= required_cookies and stats["rebirthAmount"] >= rebirth_value else opacityValue
     
     def allowBuy(cookie_value):
         return cookie_value / 2 if FiftyOff else cookie_value
@@ -557,7 +562,7 @@ def main():
             return False
     
     def checkIfAllMaxLvlThree():
-        if all(value == 1500 for value in [stats["controller"], stats["playstation"], stats["chair"], stats["pc"], stats["arcade"], stats["gamerGirl"], stats["gamingStore"], stats["nvidea"]]):
+        if all(value == 1500 for value in [stats["controllerAmount"], stats["playstationAmount"], stats["chairAmount"], stats["pcAmount"], stats["arcadeAmount"], stats["gamerGirlAmount"], stats["gamingStoreAmount"], stats["nvideaAmount"]]):
             return True
         else:
             return False
@@ -577,15 +582,15 @@ def main():
                     stats["cookies"] += stats["Ck_s"] * 1
                 if TwoXMoney5min:
                     stats["cookies"] += stats["Ck_s"] * 1
-                if stats["rebirth"] > 0:
-                    multiplier = stats["rebirth"] / 10
+                if stats["rebirthAmount"] > 0:
+                    multiplier = stats["rebirthAmount"] / 10
                     stats["Ck_s"] += stats["Ck_s"] * multiplier
 
                 if stats["nextLvL"] == 0 and stats["gAmount"] > 0:
                     cookie.clickCookie(clickSoundCookie, "on", 0.2)
-                if stats["nextLvL"] == 1 and stats["gAmount"] > 0:
+                if stats["nextLvL"] == 1 and stats["roboArmAmount"] > 0:
                     cookie.clickCookie(clickSoundBattery, "on", 0.2)
-                if stats["nextLvL"] >= 2 and stats["gAmount"] > 0:
+                if stats["nextLvL"] >= 2 and stats["controllerAmount"] > 0:
                     cookie.clickCookie(clickSoundPig, "on", 0.5)
 
             if event.type == event2xMoney2min:
@@ -619,19 +624,22 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_n and stats["eAmount"] != 0:
-                    nextLvlScreen = False
+                    # nextLvlScreen = False
+                    # levelTreeScreen = False
                     savedPlaytime = stats["playtime"]
                     reset()
                     stats["playtime"] += savedPlaytime
                     stats["eAmount"] += 2
-                    stats["gaming"] += 1
+                    stats["gaming"] += 2
                     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)
                     pygame.event.set_allowed(pygame.MOUSEBUTTONUP)
-                    if stats["gaming"] == 0:
+                    if nextLvlScreen and stats["eAmount"]  >= 2:
+                        nextLvlScreen = False
                         stats["nextLvL"] += 1
                         musicLvl2()
                         stone()
-                    else:
+                    if levelTreeScreen and stats["gaming"] >= 2:
+                        levelTreeScreen = False
                         stats["nextLvL"] += 2
                         musicLvl3()
                         lava()
@@ -642,6 +650,7 @@ def main():
                 if event.key == pygame.K_b:
                     if stats["nextLvL"] == 0:
                         nextLvlScreen = False
+                        levelTreeScreen = False
                     # else:
                     #     stats["mysteryAmount"] -= 1
                     stats["cookies"] += 1
@@ -676,7 +685,7 @@ def main():
                     if shop_window_open:
                         if stats["cookies"] >= 10000000000:
                             abiliti2xMoney_btn.buttonClick(onAbility2xMoneyClick)
-                        if stats["rebirth"] >= 1:
+                        if stats["rebirthAmount"] >= 1:
                             abiliti5min2xMoney_btn.buttonClick(onAbiliti5min2xMoneyClick)
                         if stats["cookies"] >= 1:
                             abiliti50off_btn.buttonClick(onAbility50OffClick)
@@ -687,80 +696,77 @@ def main():
                     if not shop_window_open:
                         if stats["nextLvL"] == 0:
                             if stats["cookies"] >= allowBuy(50) and stats["fingers"] <= 199:
-                                f_btn.buttonClick(onButtonFingerClick)
+                                f_btn.buttonClick(onButtonFingerClick, 1)
                             if stats["cookies"] >= allowBuy(500) and stats["gAmount"] <= 199:
-                                g_btn.buttonClick(onButtonGrannyClick)
+                                g_btn.buttonClick(onButtonGrannyClick, 1)
                             if stats["cookies"] >= allowBuy(2000) and stats["oAmount"] <= 199:
-                                o_btn.buttonClick(onButtonOvenClick)
+                                o_btn.buttonClick(onButtonOvenClick, 1)
                             if stats["cookies"] >= allowBuy(5000) and stats["farmAmount"] <= 199:
-                                farm_btn.buttonClick(onButtonFarmClick)
+                                farm_btn.buttonClick(onButtonFarmClick, 1)
                             if stats["cookies"] >= allowBuy(30000) and stats["fAmount"] <= 199:
-                                fa_btn.buttonClick(onButtonFactoryClick)
+                                fa_btn.buttonClick(onButtonFactoryClick, 1)
                             if stats["cookies"] >= allowBuy(250000) and stats["bAmount"] <= 199:
-                                b_btn.buttonClick(onButtonBankClick)
+                                b_btn.buttonClick(onButtonBankClick, 1)
                             if stats["cookies"] >= allowBuy(1250000) and stats["aAmount"] <= 199:
-                                a_btn.buttonClick(onButtonAliensClick)
+                                a_btn.buttonClick(onButtonAliensClick, 1)
                             if stats["cookies"] >= allowBuy(6250000) and stats["tAmount"] <= 199:
-                                t_btn.buttonClick(onButtonTeslaClick)
+                                t_btn.buttonClick(onButtonTeslaClick, 1)
                             if stats["cookies"] >= allowBuy(31000000) and stats["rAmount"] <= 199:
-                                r_btn.buttonClick(onButtonRocketClick)
+                                r_btn.buttonClick(onButtonRocketClick, 1)
                             if stats["cookies"] >= allowBuy(10000000000) and checkIfAllMaxLvlOne():
-                                e_btn.buttonClick(onButtonElonClick)
-                                nextLvlScreen = True
+                                e_btn.buttonClick(onButtonElonClick, 1)
 
                             #* lvl2
                         if stats["nextLvL"] == 1:
                             if stats["cookies"] >= allowBuy(150) and stats["batteryAmount"] <= 499:
-                                battery_btn.buttonClick(onButtonBatteryClick)
+                                battery_btn.buttonClick(onButtonBatteryClick, 1)
                             if stats["cookies"] >= allowBuy(1500) and stats["roboArmAmount"] <= 499:
-                                roboArm_btn.buttonClick(onButtonRoboArmClick)
+                                roboArm_btn.buttonClick(onButtonRoboArmClick, 1)
                             if stats["cookies"] >= allowBuy(6000) and stats["botAmount"] <= 499:
-                                bot_btn.buttonClick(onButtonBotClick)
+                                bot_btn.buttonClick(onButtonBotClick, 1)
                             if stats["cookies"] >= allowBuy(15000) and stats["aiAmount"] <= 499:
-                                ai_btn.buttonClick(onButtonAiClick)
+                                ai_btn.buttonClick(onButtonAiClick, 1)
                             if stats["cookies"] >= allowBuy(90000) and stats["solarAmount"] <= 499:
-                                solar_btn.buttonClick(onButtonSolarClick)
+                                solar_btn.buttonClick(onButtonSolarClick, 1)
                             if stats["cookies"] >= allowBuy(750000) and stats["gigaAmount"] <= 499:
-                                giga_btn.buttonClick(onButtonGigaClick)
+                                giga_btn.buttonClick(onButtonGigaClick, 1)
                             if stats["cookies"] >= allowBuy(93000000) and stats["ciberAmount"] <= 499:
-                                ciber_btn.buttonClick(onButtonCiberClick)
+                                ciber_btn.buttonClick(onButtonCiberClick, 1)
                             if stats["cookies"] >= allowBuy(3000000000):
-                                twitter_btn.buttonClick(onButtonTwitterClick)  
+                                twitter_btn.buttonClick(onButtonTwitterClick, 1)  
                             if stats["cookies"] >= allowBuy(900000000000) and checkIfAllMaxLvlTwo():
-                                gaming_btn.buttonClick(onButtonGamingClick)
-                                nextLvlScreen = True
+                                gaming_btn.buttonClick(onButtonGamingClick, 1)
 
                             #* lvl3
                         if stats["nextLvL"] >= 2:
-                            if stats["cookies"] >= allowBuy(900) and stats["mouse"] <= 1499:
-                                mouse_btn.buttonClick(onButtonMouseClick)
-                            if stats["cookies"] >= allowBuy(10500) and stats["controller"] <= 1499:
-                                controller_btn.buttonClick(onButtonControllerClick)
-                            if stats["cookies"] >= allowBuy(52500) and stats["playstation"] <= 1499:
-                                playstation_btn.buttonClick(onButtonPlaystationClick)
-                            if stats["cookies"] >= allowBuy(105000) and stats["chair"] <= 1499:
-                                chair_btn.buttonClick(onButtonChairClick)
-                            if stats["cookies"] >= allowBuy(1312500) and stats["pc"] <= 1499:
-                                pc_btn.buttonClick(onButtonPcClick)
-                            if stats["cookies"] >= allowBuy(6562500) and stats["arcade"] <= 1499:
-                                arcade_btn.buttonClick(onButtonArcadeClick)
-                            if stats["cookies"] >= allowBuy(32812500) and stats["gamerGirl"] <= 1499:
-                                gamerGirl_btn.buttonClick(onButtonGamerGirlClick)
-                            if stats["cookies"] >= allowBuy(164062500) and stats["gamingStore"] <= 1499:
-                                gamingStore_btn.buttonClick(onButtonGamingStoreClick)
-                            if stats["cookies"] >= allowBuy(9103125000) and stats["nvidea"] <= 1499:
-                                nvidia_btn.buttonClick(onButtonNvideaClick)
+                            if stats["cookies"] >= allowBuy(900) and stats["mouseAmount"] <= 1499:
+                                mouse_btn.buttonClick(onButtonMouseClick, 1)
+                            if stats["cookies"] >= allowBuy(10500) and stats["controllerAmount"] <= 1499:
+                                controller_btn.buttonClick(onButtonControllerClick, 1)
+                            if stats["cookies"] >= allowBuy(52500) and stats["playstationAmount"] <= 1499:
+                                playstation_btn.buttonClick(onButtonPlaystationClick, 1)
+                            if stats["cookies"] >= allowBuy(105000) and stats["chairAmount"] <= 1499:
+                                chair_btn.buttonClick(onButtonChairClick, 1)
+                            if stats["cookies"] >= allowBuy(1312500) and stats["pcAmount"] <= 1499:
+                                pc_btn.buttonClick(onButtonPcClick, 1)
+                            if stats["cookies"] >= allowBuy(6562500) and stats["arcadeAmount"] <= 1499:
+                                arcade_btn.buttonClick(onButtonArcadeClick, 1)
+                            if stats["cookies"] >= allowBuy(32812500) and stats["gamerGirlAmount"] <= 1499:
+                                gamerGirl_btn.buttonClick(onButtonGamerGirlClick, 1)
+                            if stats["cookies"] >= allowBuy(164062500) and stats["gamingStoreAmount"] <= 1499:
+                                gamingStore_btn.buttonClick(onButtonGamingStoreClick, 1)
+                            if stats["cookies"] >= allowBuy(9103125000) and stats["nvideaAmount"] <= 1499:
+                                nvidia_btn.buttonClick(onButtonNvideaClick, 1)
                             if stats["cookies"] >= allowBuy(4551562500) and checkIfAllMaxLvlThree():
-                                brain_btn.buttonClick(onButtonBrainClick)
-                                nextLvlScreen = True
+                                brain_btn.buttonClick(onButtonBrainClick, 1)
 
                         # if checkIfAllMaxLvlTwo():
                         #     mystery_btn.buttonClick(onButtonMysteryClick)
                         #     nextLvlScreen = True
 
-                    infoButton.buttonClick(onInfoClick)
-                    pauseMusic.buttonClick(onMuteClick)
-                    shopButton.buttonClick(onShopClick)
+                    infoButton.buttonClick(onInfoClick, 0)
+                    pauseMusic.buttonClick(onMuteClick, 0)
+                    shopButton.buttonClick(onShopClick, 0)
 
             if event.type == eventBlockClick:
                 clickedBlocked = False
@@ -822,7 +828,7 @@ def main():
             opacityA = setOpacity(1250000, 0, 175)
             opacityT = setOpacity(6200000, 0, 175)
             opacityR = setOpacity(31000000, 0, 175)
-            opacityE = setOpacity(10000000000, 0, 175)
+            opacityE = 175
             if checkIfAllMaxLvlOne() and stats["cookies"] >= 10000000000:
                 opacityE = 255
 
@@ -906,28 +912,28 @@ def main():
 
             if stats["nextLvL"] >= 2:
                 controller.drawImage(440, 118)
-                checkIfMaxAmount(controllerAmount, "controller", 520, 140)
+                checkIfMaxAmount(controllerAmount, "controllerAmount", 520, 140)
 
                 playstation.drawImage(600, 127)
-                checkIfMaxAmount(playstationAmount, "playstation", 680, 140)
+                checkIfMaxAmount(playstationAmount, "playstationAmount", 680, 140)
 
                 chair.drawImage(435, 250)
-                checkIfMaxAmount(chairAmount, "chair", 520, 270)
+                checkIfMaxAmount(chairAmount, "chairAmount", 520, 270)
 
                 pc.drawImage(590, 245)
-                checkIfMaxAmount(pcAmount, "pc", 680, 270)
+                checkIfMaxAmount(pcAmount, "pcAmount", 680, 270)
 
                 arcade.drawImage(435, 385)
-                checkIfMaxAmount(arcadeAmount, "arcade", 520, 400)
+                checkIfMaxAmount(arcadeAmount, "arcadeAmount", 520, 400)
 
                 gamerGirl.drawImage(600, 385)
-                checkIfMaxAmount(gamerGirlAmount, "gamerGirl", 680, 400)
+                checkIfMaxAmount(gamerGirlAmount, "gamerGirlAmount", 680, 400)
 
                 gamingStore.drawImage(435, 520)
-                checkIfMaxAmount(gamingStoreAmount, "gamingStore", 520, 530)
+                checkIfMaxAmount(gamingStoreAmount, "gamingStoreAmount", 520, 530)
 
                 nvidia.drawImage(600, 510)
-                checkIfMaxAmount(nvideaAmount, "nvidea", 680, 530)
+                checkIfMaxAmount(nvideaAmount, "nvideaAmount", 680, 530)
 
             if infoButton.num_clickedInfo % 2 and stats["nextLvL"] == 0:
                 window.blit(infoFrame, (270, 0))
@@ -1038,7 +1044,7 @@ def main():
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONUP)
 
-            if nextLvlScreen and stats["gaming"] != 0:
+            if levelTreeScreen and stats["gamingAmount"] >= 2:
                 titleScreen.drawLvLThreeScreen()
                 cookie.clickCookie(clickSoundBattery, "off", 0)
                 pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)
